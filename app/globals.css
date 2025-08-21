@@ -1,21 +1,254 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 :root {
-  --background: #ffffff;
+  --background: gray; /*White BG for finished product: #ffffff; Otherwise, it's better on the eyes with a darker color. Dark mode?*/
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #ffffff;/*gray;*/ /*White BG for finished product: #ffffff; Otherwise, it's better on the eyes with a darker color. Dark mode?*/
     --foreground: #ededed;
   }
+}
+
+header.header {
+  height: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 65px 0px 65px;
+  background-color: #ffffff;/*gray;*/ /*White BG for finished product: rgb(255, 255, 255); Otherwise, it's better on the eyes with a darker color. Dark mode?*/
+  margin-bottom: 20px;
+}
+
+.header {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark .header {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+#header-leftside{
+  text-align: center;
+}
+
+#logo{
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 30px;
+}
+
+#dark-light-mode-toggle{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.search-input {
+  font-size: 20px;
+  color: black;
+  font-weight: bold;
+  height: 50px;
+  width: 300px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border-radius: 25px;
+  border-width: 3px;
+}
+
+.dark .search-input {
+  background-color: #333;
+  color: #f9f9f9;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  padding: 10px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: rgb(39, 109, 201);
+}
+
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#doc-list {
+  display: grid;
+  grid: auto / auto auto auto;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 50px;
+  column-gap: 30px;
+  /* justify-self: center; */
+  justify-content: center;
+}
+
+.doc-component {
+  width: 450px;
+  height: auto;
+  color: rgb(29, 29, 29);
+  border-radius: 20px;
+  padding: 0px 30px 30px 30px;
+  background-color: rgb(39, 109, 201);
+  align-content: center;
+  justify-self: center;
+}
+
+.doc-text-container {
+  justify-self: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.doc-title {
+  font-size: 28px;
+}
+
+.doc-author {
+  font-size: 20px;
+}
+
+.doc-date-created {
+  font-size: 12px;
+  margin-top: -12px;
+  font-weight: normal;
+}
+
+.doc-desc {
+  font-size: 16px;
+  font-weight: normal;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 100px;
+}
+
+.dark body {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+@media (max-width: 1600px) {
+
+  #doc-list {
+    display: grid;
+    grid: auto / auto auto auto;
+    grid-template-columns: repeat(2, 1fr);;
+    row-gap: 50px;
+    justify-self: center;
+    grid-auto-columns: auto;
+  }
+
+  .doc-component {
+    width: 450px;
+  }
+}
+
+@media (max-width: 1075px) {
+  header.header {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+  }
+  
+  .header-search {
+    width: 100%;
+    text-align: center;
+  }
+
+  #doc-list {
+    display: grid;
+    grid: auto / auto auto auto;
+    grid-template-columns: auto;
+    row-gap: 50px;
+    grid-auto-columns: auto;
+    justify-self: center;
+  }
+
+  .doc-component {
+    width: 450px;
+  }
+}
+
+@media (max-width: 1075px) {
+
+  header.header{
+    margin-top: -50px;
+    margin-bottom: 50px;
+  }
+
+  .header-search {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .search-input {
+    width: 72%;
+  }
+
+  #doc-list {
+    display: grid;
+    grid-template-columns: auto;
+    row-gap: 50px;
+    grid-auto-columns: auto;
+    justify-self: center;
+  }
+
+  .doc-component {
+    width: 400px;
+  }
 }
