@@ -1,6 +1,6 @@
 import Image from "next/image";
+import docbot from '/app/documentationbot.js';  // changed from using require() to using import
 
-const docbot = require('/app/documentationbot.js');
 const submission = "!submitmd Title='This is a document.' Description='This is something sbout the document.'";
 
 export default function Home() {
