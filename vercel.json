@@ -10,6 +10,9 @@
     },
     {
       "src": "/login", "dest": "/api/login.php"
+    },
+    {
+      "src": "/signup", "dest": "/api/signup.php"
     }
   ]
 }
