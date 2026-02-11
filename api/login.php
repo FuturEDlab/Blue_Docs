@@ -1,10 +1,79 @@
-﻿<!DOCTYPE HTML>
+﻿<?php
+	/* Only required before link to Neon */
+	$_ENV = [ 'NEON_AUTH_BASE_URL' => 'https://httpbin.org/post' ];
+
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		header('Content-Type: application/json');
+		if (isset($_POST['email']) && isset($_POST['password'])) {
+			$email = htmlspecialchars($_POST['email']);
+			$password = htmlspecialchars($_POST['password']);
+
+			/* Set Auth URL */
+			$url = $_ENV['NEON_AUTH_BASE_URL']/* . '/api/auth/sign-in/email'*/;
+
+			/* Construct Headers */
+			$headers = [
+				'Content-Type: application/json',
+				'Accept: application/json'
+			];
+
+			/* Construct JSON Data */
+			$data = [
+				'email' => $email,
+				'password' => $password
+			];
+
+			/* Initialize cURL */
+			$ch = curl_init();
+
+			/* Set cURL Options */
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+			/* Handle cURL Response and End Session */
+			$response = curl_exec($ch);
+			if ($response === false) {
+				die('cURL Error: ' . curl_error($ch));
+			} else {
+				$responseArray = json_decode($response);
+				if (property_exists($responseArray->data, 'session')) {
+					/* Respond 303 if authentication succeeds (Neon should create a session cookie). */
+					http_response_code(303);
+					$response = ['location' => 'index.php'];
+					echo json_encode($response);
+				} else {
+					/* Respond 401 if authentication fails. */
+					http_response_code(401);
+					$response = ['message' => 'Login not found.'];
+					echo json_encode($response);
+				}
+			}
+		} else {
+			/* Respond 401 if an email and password isn't received. */
+			http_response_code(401);
+			$response = ['message' => 'There was an issue fetching the email and password.'];
+			echo json_encode($response);
+		}
+		exit;
+
+	/* Return if not a GET or POST Request */
+	} else if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+		http_response_code(405);
+		exit('Method not allowed.');
+	}
+?>
+
+<!DOCTYPE HTML>
 <HTML>
 	<head>
 		<meta charset="UTF-8">
 		<title>Blue Docs Login</title>
 
 		<link href="/styles/output.css" rel="stylesheet" type="text/css">
+		<link href="/public/loading.gif" rel="preload" as="image">
 	</head>
 
 	<body>
@@ -14,27 +83,60 @@
 			<div class="flex flex-col items-center justify-between w-1/5 gap-7">
 
 				<!-- Logo -->
-				<img src="/public/templogo.svg" alt="Temporary Blue Docs Logo" class="w-full">
+				<a href="/api/index.php" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 
 				<!-- Login Form -->
 				<h1 class="">Log in with an existing account</h1>
-				<form action="#" method="POST" class="flex flex-col items-center justify-between w-full gap-4">
-					<div class="w-full">
-						<input id="email" type="text" name="email" required autocomplete="email" placeholder="Email" class="block w-full rounded-sm outline-4 px-1"/>
-					</div>
-					<div class="w-full">
-						<input id="password" type="password" name="password" required autocomplete="password" placeholder="Password" class="block w-full rounded-sm outline-4 px-1"/>
-					</div>
-					<button type="submit" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-3 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Log In →</button>
+				<form class="flex flex-col items-center justify-between w-full gap-4" id="loginForm">
+					<input id="email" type="text" name="email" autocomplete="email" placeholder="Email" onclick="resetEmail()" class="block w-full rounded-sm outline-2 invalid:text-red-500 px-1"/>
+					<input id="password" type="password" name="password" autocomplete="password" placeholder="Password" class="block w-full rounded-sm outline-2 px-1"/>
+					<button id="loginSubmit" type="submit" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Log In →</button>
+					<span id="errorSpan" class="text-red-500 text-center"></span>
 				</form>
 
 				<!-- Signup Link -->
-				<a href="/api/signup.php" class="font-bold">or sign up here!</a>
+				<p class="font-bold">or sign up <a href="/api/signup.php" class="underline">here</a>!</p>
 
 			</div>
 		</main>
 	</body>
 
-	<!-- Dummy script to prevent rendering before loading CSS -->
-	<script>0</script>
+	<script>
+		const errorSpan = document.getElementById('errorSpan');
+
+		document.getElementById('loginForm').addEventListener('submit', (event) => {
+			event.preventDefault();
+
+			const formData = new FormData(document.getElementById('loginForm'));
+			if (formData.get('email') && formData.get('password')) {
+				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
+					errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
+					fetch('login.php', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						body: new URLSearchParams(formData).toString()
+					})
+					.then(response => response.json())
+					.then(data => {
+						errorSpan.textContent = data.message;
+					})
+					.catch(error => {
+						errorSpan.textContent = error.message;
+					});
+				} else {
+					document.getElementById('email').setCustomValidity('Not a valid GVSU email.');
+					errorSpan.textContent = 'Not a valid GVSU email.';
+				}
+			} else {
+				errorSpan.textContent = 'Both an email and password are required.';
+			}
+		});
+
+		function resetEmail() {
+			document.getElementById('email').setCustomValidity('');
+			errorSpan.textContent = '';
+		}
+	</script>
 </HTML>
