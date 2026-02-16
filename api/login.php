@@ -1,6 +1,8 @@
 ﻿<?php
 	/* Only required before link to Neon */
-	$_ENV = [ 'NEON_AUTH_BASE_URL' => 'https://httpbin.org/post' ];
+	$_ENV = [ 'BLUE_DOCS_NEON_AUTH_BASE_URL' => 'https://ep-empty-block-aihtcwkp.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth',
+		'VERCEL_URL' => 'http://localhost:4000'
+	];
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		header('Content-Type: application/json');
@@ -9,12 +11,13 @@
 			$password = htmlspecialchars($_POST['password']);
 
 			/* Set Auth URL */
-			$url = $_ENV['NEON_AUTH_BASE_URL']/* . '/api/auth/sign-in/email'*/;
+			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/sign-in/email';
 
 			/* Construct Headers */
 			$headers = [
 				'Content-Type: application/json',
-				'Accept: application/json'
+				'Accept: application/json',
+				'Origin: ' . $_ENV['VERCEL_URL']
 			];
 
 			/* Construct JSON Data */
@@ -31,6 +34,7 @@
 			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($ch, CURLOPT_HEADER, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 			/* Handle cURL Response and End Session */
@@ -38,18 +42,23 @@
 			if ($response === false) {
 				die('cURL Error: ' . curl_error($ch));
 			} else {
-				$responseArray = json_decode($response);
-				if (property_exists($responseArray->data, 'session')) {
-					/* Respond 303 if authentication succeeds (Neon should create a session cookie). */
-					http_response_code(303);
-					$response = ['location' => 'index.php'];
-					echo json_encode($response);
-				} else {
-					/* Respond 401 if authentication fails. */
-					http_response_code(401);
-					$response = ['message' => 'Login not found.'];
-					echo json_encode($response);
+				/* Return headers and body from Neon to client. */
+				$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+				$header = substr($response, 0, $header_size);
+				$body = substr($response, $header_size);
+
+				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				http_response_code($http_code);
+
+				$header_lines = explode("\n", trim($header));
+				foreach ($header_lines as $line) {
+					/* Skip content-lenth header, caused issues with cutting off response body. */
+					if (stripos($line, 'content-length:') === 0) {
+						continue;
+					}
+					header($line);
 				}
+				echo $body;
 			}
 		} else {
 			/* Respond 401 if an email and password isn't received. */
