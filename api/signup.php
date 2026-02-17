@@ -4,6 +4,7 @@
 		'VERCEL_URL' => 'http://localhost:4000'
 	];
 
+	/* Pass sign-up request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		header('Content-Type: application/json');
 		if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastinitial'])) {
@@ -42,7 +43,8 @@
 			/* Handle cURL Response and End Session */
 			$response = curl_exec($ch);
 			if ($response === false) {
-				die('cURL Error: ' . curl_error($ch));
+				echo json_encode(['curl_error' => curl_error($ch)]);
+				//die('cURL Error: ' . curl_error($ch));
 			} else {
 				/* Return headers and body from Neon to client. */
 				$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -52,7 +54,7 @@
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
 
-				$header_lines = explode("\n", trim($header));
+				$header_lines = preg_split('/\r\n|\r|\n/', trim($header));
 				foreach ($header_lines as $line) {
 					/* Skip content-lenth header, caused issues with cutting off response body. */
 					if (stripos($line, 'content-length:') === 0) {
@@ -91,7 +93,7 @@
 		<main class="flex flex-col items-center justify-center min-h-screen">
 
 			<!-- Signup Container -->
-			<div class="flex flex-col items-center justify-between w-1/5 gap-7">
+			<div class="flex flex-col items-center justify-between w-1/2 lg:w-1/5 gap-7">
 
 				<!-- Logo -->
 				<a href="/api/index.php" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
@@ -136,9 +138,21 @@
 								},
 								body: new URLSearchParams(formData).toString()
 							})
-							.then(response => response.json())
+							.then(response => {
+								if (response.status >= 500) {
+									errorSpan.textContent = "Server error.";
+								} else {
+									return response.json();
+								}
+							})
 							.then(data => {
-								errorSpan.textContent = data.message;
+								if (data !== undefined) {
+									if ('user' in data) {
+										window.location.href='verification.php';
+									} else {
+										errorSpan.textContent = data.message;
+									}
+								}
 							})
 							.catch(error => {
 								errorSpan.textContent = error.message;

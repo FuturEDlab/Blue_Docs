@@ -1,0 +1,76 @@
+<?php
+	/* Only required before link to Neon */
+	$_ENV = [ 'BLUE_DOCS_NEON_AUTH_BASE_URL' => 'https://ep-empty-block-aihtcwkp.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth',
+		'VERCEL_URL' => 'http://localhost:4000'
+	];
+
+	/* Pass request to resend OTP email to Neon Auth and return the response. */
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		header('Content-Type: application/json');
+		if (isset($_POST['email'])) {
+			$email = htmlspecialchars($_POST['email']);
+
+			/* Set Auth URL */
+			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/email-otp/send-verification-otp';
+
+			/* Construct Headers */
+			$headers = [
+				'Content-Type: application/json',
+				'Accept: application/json',
+				'Origin: ' . $_ENV['VERCEL_URL']
+			];
+
+			/* Construct JSON Data */
+			$data = [
+				'email' => $email,
+				'type' => 'email-verification'
+			];
+
+			/* Initialize cURL */
+			$ch = curl_init();
+
+			/* Set cURL Options */
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($ch, CURLOPT_HEADER, true);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+			/* Handle cURL Response and End Session */
+			$response = curl_exec($ch);
+			if ($response === false) {
+				die('cURL Error: ' . curl_error($ch));
+			} else {
+				/* Return headers and body from Neon to client. */
+				$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+				$header = substr($response, 0, $header_size);
+				$body = substr($response, $header_size);
+
+				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				http_response_code($http_code);
+
+				$header_lines = explode("\n", trim($header));
+				foreach ($header_lines as $line) {
+					/* Skip content-lenth header, caused issues with cutting off response body. */
+					if (stripos($line, 'content-length:') === 0) {
+						continue;
+					}
+					header($line);
+				}
+				echo $body;
+			}
+		} else {
+			/* Respond 401 if an email and password isn't received. */
+			http_response_code(401);
+			$response = ['message' => 'There was an issue fetching the email.'];
+			echo json_encode($response);
+		}
+		exit;
+
+	/* Return if not a GET or POST Request */
+	} else if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+		http_response_code(405);
+		exit('Method not allowed.');
+	}
+?>

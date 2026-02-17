@@ -4,15 +4,15 @@
 		'VERCEL_URL' => 'http://localhost:4000'
 	];
 
-	/* Pass sign-in request to Neon Auth and return the response. */
+	/* Pass OTP submission request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		header('Content-Type: application/json');
-		if (isset($_POST['email']) && isset($_POST['password'])) {
+		if (isset($_POST['email']) && isset($_POST['otp'])) {
 			$email = htmlspecialchars($_POST['email']);
-			$password = htmlspecialchars($_POST['password']);
+			$otp = htmlspecialchars($_POST['otp']);
 
 			/* Set Auth URL */
-			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/sign-in/email';
+			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/email-otp/verify-email';
 
 			/* Construct Headers */
 			$headers = [
@@ -24,7 +24,7 @@
 			/* Construct JSON Data */
 			$data = [
 				'email' => $email,
-				'password' => $password
+				'otp' => $otp
 			];
 
 			/* Initialize cURL */
@@ -64,13 +64,13 @@
 		} else {
 			/* Respond 401 if an email and password isn't received. */
 			http_response_code(401);
-			$response = ['message' => 'There was an issue fetching the email and password.'];
+			$response = ['message' => 'There was an issue fetching the email verification info.'];
 			echo json_encode($response);
 		}
 		exit;
 
-	/* Return if not a GET or POST Request */
-	} else if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+	/* Return if not a redirected GET request or POST Request */
+	} else if ($_SERVER['REQUEST_METHOD'] != 'GET' || empty($_SERVER['HTTP_REFERER'])) {
 		http_response_code(405);
 		exit('Method not allowed.');
 	}
@@ -89,24 +89,22 @@
 	<body>
 		<main class="flex flex-col items-center justify-center min-h-screen">
 
-			<!-- Login Container -->
+			<!-- Verification Container -->
 			<div class="flex flex-col items-center justify-between w-1/2 lg:w-1/5 gap-7">
 
 				<!-- Logo -->
 				<a href="/api/index.php" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 
-				<!-- Login Form -->
-				<h1 class="">Log in with an existing account</h1>
-				<form class="flex flex-col items-center justify-between w-full gap-4" id="loginForm">
+				<!-- Resend OTP Button -->
+				<button id="otpResend" onclick="resendOTP()" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Resend Verification Code →</button>
+
+				<!-- Verification Form -->
+				<form class="flex flex-col items-center justify-between w-full gap-4" id="otpForm">
 					<input id="email" type="text" name="email" autocomplete="email" placeholder="Email" onclick="resetEmail()" class="block w-full rounded-sm outline-2 invalid:text-red-500 px-1"/>
-					<input id="password" type="password" name="password" autocomplete="password" placeholder="Password" class="block w-full rounded-sm outline-2 px-1"/>
-					<button id="loginSubmit" type="submit" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Log In →</button>
+					<input id="otp" type="number" name="otp" autocomplete="otp" placeholder="Verification Code" class="block w-full rounded-sm outline-2 invalid:text-red-500 px-1"/>
+					<button id="otpSubmit" type="submit" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Submit Verification Code →</button>
 					<span id="errorSpan" class="text-red-500 text-center"></span>
 				</form>
-
-				<!-- Signup Link -->
-				<p class="font-bold">or sign up <a href="/api/signup.php" class="underline">here</a>!</p>
-
 			</div>
 		</main>
 	</body>
@@ -114,14 +112,14 @@
 	<script>
 		const errorSpan = document.getElementById('errorSpan');
 
-		document.getElementById('loginForm').addEventListener('submit', (event) => {
+		document.getElementById('otpForm').addEventListener('submit', (event) => {
 			event.preventDefault();
 
-			const formData = new FormData(document.getElementById('loginForm'));
-			if (formData.get('email') && formData.get('password')) {
+			const formData = new FormData(document.getElementById('otpForm'));
+			if (formData.get('email') && formData.get('otp')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
 					errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
-					fetch('login.php', {
+					fetch('verification.php', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/x-www-form-urlencoded'
@@ -152,9 +150,45 @@
 					errorSpan.textContent = 'Not a valid GVSU email.';
 				}
 			} else {
-				errorSpan.textContent = 'Both an email and password are required.';
+				errorSpan.textContent = 'Both an email and verification code are required.';
 			}
 		});
+
+		function resendOTP() {
+			const formData = new FormData(document.getElementById('otpForm'));
+			if (formData.get('email')) {
+				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
+					errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
+					fetch('resend.php', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						body: new URLSearchParams(formData).toString()
+					})
+					.then(response => {
+						if (response.status >= 500) {
+							errorSpan.textContent = "Server error.";
+						} else {
+							return response.json();
+						}
+					})
+					.then(data => {
+						if (data !== undefined) {
+							errorSpan.textContent = data.message;
+						}
+					})
+					.catch(error => {
+						errorSpan.textContent = error.message;
+					});
+				} else {
+					document.getElementById('email').setCustomValidity('Not a valid GVSU email.');
+					errorSpan.textContent = 'Not a valid GVSU email.';
+				}
+			} else {
+				errorSpan.textContent = 'Email required to resend verification code.';
+			}
+		}
 
 		function resetEmail() {
 			document.getElementById('email').setCustomValidity('');
