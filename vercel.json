@@ -9,22 +9,25 @@
     }
   },
   "routes": [
-    {
+    { /* Remove trailing slashes. */
+      "src": "/(.*)/",
+      "dest": "/$1"
+    },
+    { /* Allow public resources. */
       "src": "/public/(.*)",
       "dest": "/public/$1"
     },
-    {
+    { /* Allow stylesheet resources. */
       "src": "/styles/(.*)",
       "dest": "/styles/$1"
     },
-    {
+    { /* Format PHP page URLs. */
       "src": "/(.*)",
       "dest": "/api/$1.php"
     },
-    {
+    { /* Otherwise, redirect to index.php. */
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
-  ],
-  "trailingSlash": false
+  ]
 }
