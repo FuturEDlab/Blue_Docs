@@ -28,7 +28,7 @@
 				<!-- Dropdown Contents -->
 				<el-menu anchor="bottom end" popover>
 					<div class="py-1">
-						<button onclick="window.location.href='login.php';">Sign In to BlueDocs</button>
+						<button onclick="window.location.href='login';">Sign In to BlueDocs</button>
 					</div>
 				</el-menu>
 

@@ -8,18 +8,24 @@
   },
   "name": "Blue Docs",
   "regions": [ "cle1" ],
+  "redirects": [
+    {
+      "source": "/api/:path.php",
+      "destination": "/:path"
+    },
+    {
+      "source": "/api/:path",
+      "destination": "/:path"
+    }
+  ],
   "rewrites": [
     {
-      "source": "/styles/(.*)",
-      "destination": "/styles/$1"
+      "source": "/:match((?!public|styles).*)",
+      "destination": "/api/:match.php"
     },
     {
-      "source": "/public/(.*)",
-      "destination": "/public/$1"
-    },
-    {
-      "source": "/((?!public|styles).*)",
-      "destination": "/api/$1"
+      "source": "/",
+      "destination": "/api/index.html"
     }
   ],
   "trailingSlash": false,
