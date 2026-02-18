@@ -16,7 +16,7 @@
   ],
   "rewrites": [
     {
-      "source": "/:match",
+      "source": "/:match((?!public|styles).*)",
       "destination": "/api/:match"
     }
   ],
