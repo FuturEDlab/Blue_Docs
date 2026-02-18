@@ -1,33 +1,27 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "version": 2,
-  "regions": [ "cle1" ],
-  "name": "Blue Docs",
+  "cleanUrls": true,
   "functions": {
     "api/*.php": {
       "runtime": "vercel-php@0.9.0"
     }
   },
-  "routes": [
-    { /* Remove trailing slashes. */
-      "src": "/(.*)/",
-      "dest": "/$1"
+  "name": "Blue Docs",
+  "regions": [ "cle1" ],
+  "rewrites": [
+    {
+      "source": "/public/(.*)",
+      "destination": "/public/$1"
     },
-    { /* Allow public resources. */
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
+    {
+      "source": "/styles/(.*)",
+      "destination": "/styles/$1"
     },
-    { /* Allow stylesheet resources. */
-      "src": "/styles/(.*)",
-      "dest": "/styles/$1"
-    },
-    { /* Format PHP page URLs. */
-      "src": "/(.*)",
-      "dest": "/api/$1.php"
-    },
-    { /* Otherwise, redirect to index.php. */
-      "src": "/(.*)",
-      "dest": "/api/index.php"
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/api/index.php"
     }
-  ]
+  ],
+  "trailingSlash": false,
+  "version": 2
 }
