@@ -8,10 +8,16 @@
   },
   "name": "Blue Docs",
   "regions": [ "cle1" ],
+  "redirects": [
+    {
+      "source": "/api/:path",
+      "destination": "/:path"
+    }
+  ],
   "rewrites": [
     {
-      "source": "/((?!api|public|styles).*)",
-      "destination": "/api/$1.php"
+      "source": "/:match",
+      "destination": "/api/:match"
     }
   ],
   "trailingSlash": false,
