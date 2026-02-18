@@ -10,16 +10,16 @@
   "regions": [ "cle1" ],
   "rewrites": [
     {
-      "source": "/public/(.*)",
-      "destination": "/public/$1"
-    },
-    {
       "source": "/styles/(.*)",
       "destination": "/styles/$1"
     },
     {
-      "source": "/((?!api/).*)",
-      "destination": "/api/index.php"
+      "source": "/public/(.*)",
+      "destination": "/public/$1"
+    },
+    {
+      "source": "/((?!public|styles).*)",
+      "destination": "/api/$1"
     }
   ],
   "trailingSlash": false,
