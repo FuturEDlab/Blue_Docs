@@ -1,9 +1,4 @@
 ﻿<?php
-	/* Only required before link to Neon */
-	$_ENV = [ 'BLUE_DOCS_NEON_AUTH_BASE_URL' => 'https://ep-empty-block-aihtcwkp.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth',
-		'VERCEL_URL' => 'http://localhost:4000'
-	];
-
 	/* Pass sign-up request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		header('Content-Type: application/json');
@@ -113,7 +108,7 @@
 				</form>
 
 				<!-- Login Link -->
-				<p class="font-bold">or log in <a href="/api/login.php" class="underline">here</a>!</p>
+				<p class="font-bold">or log in <a href="/login" class="underline">here</a>!</p>
 
 			</div>
 		</main>
@@ -131,7 +126,7 @@
 					if (formData.get('password').length >= 8) {
 						if (formData.get('password') === formData.get('confirmpassword')) {
 							errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
-							fetch('signup.php', {
+							fetch('/signup', {
 								method: 'POST',
 								headers: {
 									'Content-Type': 'application/x-www-form-urlencoded'
@@ -148,7 +143,7 @@
 							.then(data => {
 								if (data !== undefined) {
 									if ('user' in data) {
-										window.location.href='verification.php';
+										window.location.href='/verification';
 									} else {
 										errorSpan.textContent = data.message;
 									}

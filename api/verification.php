@@ -1,9 +1,4 @@
 ﻿<?php
-	/* Only required before link to Neon */
-	$_ENV = [ 'BLUE_DOCS_NEON_AUTH_BASE_URL' => 'https://ep-empty-block-aihtcwkp.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth',
-		'VERCEL_URL' => 'http://localhost:4000'
-	];
-
 	/* Pass OTP submission request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		header('Content-Type: application/json');
@@ -93,7 +88,7 @@
 			<div class="flex flex-col items-center justify-between w-1/2 lg:w-1/5 gap-7">
 
 				<!-- Logo -->
-				<a href="/api/index.php" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
+				<a href="/index" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 
 				<!-- Resend OTP Button -->
 				<button id="otpResend" onclick="resendOTP()" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Resend Verification Code →</button>
@@ -119,7 +114,7 @@
 			if (formData.get('email') && formData.get('otp')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
 					errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
-					fetch('verification.php', {
+					fetch('/verification', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/x-www-form-urlencoded'
@@ -136,7 +131,7 @@
 					.then(data => {
 						if (data !== undefined) {
 							if ('user' in data) {
-								window.location.href='index.php';
+								window.location.href='/index';
 							} else {
 								errorSpan.textContent = data.message;
 							}
@@ -159,7 +154,7 @@
 			if (formData.get('email')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
 					errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
-					fetch('resend.php', {
+					fetch('/resend', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/x-www-form-urlencoded'

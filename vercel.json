@@ -1,4 +1,8 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "regions": [ "cle1" ],
+  "name": "Blue Docs",
   "functions": {
     "api/*.php": {
       "runtime": "vercel-php@0.9.0"
@@ -6,13 +10,21 @@
   },
   "routes": [
     {
-      "src": "/(.*)", "dest": "/api/index.php"
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
     },
     {
-      "src": "/login", "dest": "/api/login.php"
+      "src": "/styles/(.*)",
+      "dest": "/styles/$1"
     },
     {
-      "src": "/signup", "dest": "/api/signup.php"
+      "src": "/(.*)",
+      "dest": "/api/$1.php"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
     }
-  ]
+  ],
+  "trailingSlash": false
 }

@@ -1,9 +1,4 @@
 ﻿<?php
-	/* Only required before link to Neon */
-	$_ENV = [ 'BLUE_DOCS_NEON_AUTH_BASE_URL' => 'https://ep-empty-block-aihtcwkp.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth',
-		'VERCEL_URL' => 'http://localhost:4000'
-	];
-
 	/* Pass sign-in request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		header('Content-Type: application/json');
@@ -93,7 +88,7 @@
 			<div class="flex flex-col items-center justify-between w-1/2 lg:w-1/5 gap-7">
 
 				<!-- Logo -->
-				<a href="/api/index.php" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
+				<a href="/index" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 
 				<!-- Login Form -->
 				<h1 class="">Log in with an existing account</h1>
@@ -105,7 +100,7 @@
 				</form>
 
 				<!-- Signup Link -->
-				<p class="font-bold">or sign up <a href="/api/signup.php" class="underline">here</a>!</p>
+				<p class="font-bold">or sign up <a href="/signup" class="underline">here</a>!</p>
 
 			</div>
 		</main>
@@ -138,7 +133,7 @@
 					.then(data => {
 						if (data !== undefined) {
 							if ('user' in data) {
-								window.location.href='index.php';
+								window.location.href='/index';
 							} else {
 								errorSpan.textContent = data.message;
 							}
