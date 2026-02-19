@@ -1,10 +1,7 @@
 <?php
 	/* Pass sign-up request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		echo 'testing post';
-
 		if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastinitial'])) {
-
 			$email = htmlspecialchars($_POST['email']);
 			$password = htmlspecialchars($_POST['password']);
 			$name = htmlspecialchars($_POST['firstname']) . ' ' . htmlspecialchars($_POST['lastinitial']);
@@ -50,7 +47,7 @@
 
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
-
+				echo ("The error is in the header handling");
 				$header_lines = preg_split('/\r\n|\r|\n/', trim($header));
 				foreach ($header_lines as $line) {
 					/* Skip content-lenth header, caused issues with cutting off response body. */
