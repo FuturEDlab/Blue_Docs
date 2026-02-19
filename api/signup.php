@@ -7,7 +7,7 @@
 			$name = htmlspecialchars($_POST['firstname']) . ' ' . htmlspecialchars($_POST['lastinitial']);
 
 			/* Set Auth URL */
-			$url = 'https://ep-rapid-silence-aiyyxry4.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth' . '/sign-up/email';
+			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/sign-up/email';
 
 			/* Construct Headers */
 			$headers = [
@@ -49,10 +49,11 @@
 
 				$header_lines = preg_split('/\r\n|\r|\n/', trim($header));
 				foreach ($header_lines as $line) {
-					/* Only pass along the set-cookie header. */
-					if (stripos($line, 'Set-Cookie:') === 0) {
-						header($line);
-					}
+					/* Skip content-length header. */
+					/*if (stripos($line, 'content-length:') === 0) {
+						continue;
+					}*/
+					header($line);
 				}
 				echo $body;
 			}
