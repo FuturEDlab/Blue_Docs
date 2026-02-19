@@ -38,11 +38,11 @@
 
 			/* Handle cURL Response and End Session */
 			$response = curl_exec($ch);
-			if ($response === false) {
+			/*if ($response === false) {
 				echo json_encode(['curl_error' => curl_error($ch)]);
 				//die('cURL Error: ' . curl_error($ch));
 			} else {
-				/* Return headers and body from Neon to client. */
+				/* Return headers and body from Neon to client. *//*
 				$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 				$header = substr($response, 0, $header_size);
 				$body = substr($response, $header_size);
@@ -52,12 +52,12 @@
 
 				$header_lines = preg_split('/\r\n|\r|\n/', trim($header));
 				foreach ($header_lines as $line) {
-					/* Only pass along the set-cookie header. */
+					/* Only pass along the set-cookie header. *//*
 					if (stripos($line, 'Set-Cookie:') === 0) {
 						header($line);
 					}
 				}
-				echo $body;
+				echo $body;*/echo $response;
 			}
 		} else {
 			/* Respond 401 if an email and password isn't received. */
