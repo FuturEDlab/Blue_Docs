@@ -7,7 +7,7 @@
 			$name = htmlspecialchars($_POST['firstname']) . ' ' . htmlspecialchars($_POST['lastinitial']);
 
 			/* Set Auth URL */
-			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/sign-up/email';
+			$url = 'https://ep-rapid-silence-aiyyxry4.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth' . '/sign-up/email';
 
 			/* Construct Headers */
 			$headers = [
