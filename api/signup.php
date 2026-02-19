@@ -47,14 +47,13 @@
 
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
-				echo ("The error is in the header handling");
+
 				$header_lines = preg_split('/\r\n|\r|\n/', trim($header));
 				foreach ($header_lines as $line) {
-					/* Skip content-lenth header, caused issues with cutting off response body. */
-					if (stripos($line, 'content-length:') === 0) {
-						continue;
+					/* Only pass along the set-cookie header. */
+					if (stripos($line, 'Set-Cookie:') === 0) {
+						header($line);
 					}
-					header($line);
 				}
 				echo $body;
 			}
