@@ -1,6 +1,4 @@
 <?php
-	error_reporting(E_ALL);
-
 	/* Pass sign-up request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastinitial'])) {
@@ -15,7 +13,7 @@
 			$headers = [
 				'Content-Type: application/json',
 				'Accept: application/json',
-				'Origin: https://' . $_ENV['VERCEL_URL']
+				'Origin: ' . $_ENV['VERCEL_URL']
 			];
 
 			/* Construct JSON Data */
@@ -40,7 +38,6 @@
 			$response = curl_exec($ch);
 			if ($response === false) {
 				echo json_encode(['curl_error' => curl_error($ch)]);
-				//die('cURL Error: ' . curl_error($ch));
 			} else {
 				/* Return headers and body from Neon to client. */
 				$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
