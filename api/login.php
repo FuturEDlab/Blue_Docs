@@ -45,16 +45,17 @@
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
 
-				$header_lines = explode("\n", trim($header));
+				$header_lines = explode("\r\n", trim($header));
 				foreach ($header_lines as $line) {
-					/* Skip content-lenth header, caused issues with cutting off response body. */
-					if (stripos($line, 'content-length:') === 0) {
-						continue;
+					/* Add set-cookie header to response to client. */
+					if (stripos($line, 'Set-Cookie:') === 0) {
+						header($line);
 					}
-					header($line);
 				}
 				echo $body;
+				curl_close($ch);
 			}
+
 		} else {
 			/* Respond 401 if an email and password isn't received. */
 			http_response_code(401);

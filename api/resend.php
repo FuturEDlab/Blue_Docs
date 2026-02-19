@@ -36,23 +36,10 @@
 			if ($response === false) {
 				die('cURL Error: ' . curl_error($ch));
 			} else {
-				/* Return headers and body from Neon to client. */
-				$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-				$header = substr($response, 0, $header_size);
-				$body = substr($response, $header_size);
-
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
-
-				$header_lines = explode("\n", trim($header));
-				foreach ($header_lines as $line) {
-					/* Skip content-lenth header, caused issues with cutting off response body. */
-					if (stripos($line, 'content-length:') === 0) {
-						continue;
-					}
-					header($line);
-				}
-				echo $body;
+				echo $response;
+				curl_close($ch);
 			}
 		} else {
 			/* Respond 401 if an email and password isn't received. */

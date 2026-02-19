@@ -41,7 +41,9 @@
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
 				echo $response;
+				curl_close($ch);
 			}
+
 		} else {
 			/* Respond 401 if an email and password isn't received. */
 			http_response_code(401);
