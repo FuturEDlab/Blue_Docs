@@ -1,9 +1,7 @@
 <?php
-	error_reporting(E_ALL);
-
 	/* Pass sign-up request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		ob_start();
+		echo 'testing post';
 
 		if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastinitial'])) {
 
@@ -69,8 +67,6 @@
 			$response = ['message' => 'There was an issue fetching the sign up info.'];
 			echo json_encode($response);
 		}
-
-		ob_end_flush();
 		exit;
 
 	/* Return if not a GET or POST Request */
