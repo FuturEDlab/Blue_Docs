@@ -57,8 +57,9 @@
 						header($line);
 					}
 				}
-				echo $body;*/echo $response;
-			}
+				echo $body;
+			}*/
+			echo $response;
 		} else {
 			/* Respond 401 if an email and password isn't received. */
 			http_response_code(401);
