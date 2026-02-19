@@ -77,8 +77,8 @@
 		<meta charset="UTF-8">
 		<title>Blue Docs Login</title>
 
-		<link href="/styles/output.css" rel="stylesheet" type="text/css">
-		<link href="/public/loading.gif" rel="preload" as="image">
+		<link href="/output.css" rel="stylesheet" type="text/css">
+		<link href="/loading.gif" rel="preload" as="image">
 	</head>
 
 	<body>
@@ -88,7 +88,7 @@
 			<div class="flex flex-col items-center justify-between w-1/2 lg:w-1/5 gap-7">
 
 				<!-- Logo -->
-				<a href="/index" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
+				<a href="/index" class="w-full"><img src="/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 
 				<!-- Resend OTP Button -->
 				<button id="otpResend" onclick="resendOTP()" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Resend Verification Code →</button>
@@ -113,7 +113,7 @@
 			const formData = new FormData(document.getElementById('otpForm'));
 			if (formData.get('email') && formData.get('otp')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
-					errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
+					errorSpan.innerHTML = '<img src="/loading.gif" alt="Loading GIF" class="size-6">';
 					fetch('/verification', {
 						method: 'POST',
 						headers: {
@@ -153,7 +153,7 @@
 			const formData = new FormData(document.getElementById('otpForm'));
 			if (formData.get('email')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
-					errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
+					errorSpan.innerHTML = '<img src="/loading.gif" alt="Loading GIF" class="size-6">';
 					fetch('/resend', {
 						method: 'POST',
 						headers: {

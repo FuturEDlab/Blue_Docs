@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>Blue Docs</title>
 
-		<link href="/styles/output.css" rel="stylesheet" type="text/css">
+		<link href="/output.css" rel="stylesheet" type="text/css">
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 	</head>
 
@@ -14,7 +14,7 @@
 		<header class="sticky w-full h-[20vh] top-0 p-10 nav-header">
 
 			<!-- Logo -->
-			<img src="/public/templogo.svg" alt="Temporary Blue Docs Logo" class="float-left h-full">
+			<img src="/templogo.svg" alt="Temporary Blue Docs Logo" class="float-left h-full">
 
 			<!-- Account Dropdown -->
 			<el-dropdown class="float-right">
@@ -22,7 +22,7 @@
 				<!-- Account Picture -->
 				<button>
 					<span class="sr-only">Open Profile Menu</span>
-					<img class="size-8" src="/public/profile.png" alt="Default Account Image">
+					<img class="size-8" src="/profile.png" alt="Default Account Image">
 				</button>
 
 				<!-- Dropdown Contents -->

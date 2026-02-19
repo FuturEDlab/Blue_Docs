@@ -16,7 +16,7 @@
   ],
   "rewrites": [
     {
-      "source": "/:match((?!public|styles).*)",
+      "source": "/:match((?!css|gif|jpg|jpeg|png|svg))",
       "destination": "/api/:match"
     }
   ],

@@ -80,8 +80,8 @@
 		<meta charset="UTF-8">
 		<title>Blue Docs Sign Up</title>
 
-		<link href="/styles/output.css" rel="stylesheet" type="text/css">
-		<link href="/public/loading.gif" rel="preload" as="image">
+		<link href="/output.css" rel="stylesheet" type="text/css">
+		<link href="/loading.gif" rel="preload" as="image">
 	</head>
 
 	<body>
@@ -91,7 +91,7 @@
 			<div class="flex flex-col items-center justify-between w-1/2 lg:w-1/5 gap-7">
 
 				<!-- Logo -->
-				<a href="/api/index.php" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
+				<a href="/api/index.php" class="w-full"><img src="/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 
 				<!-- Signup Form -->
 				<h1 class="">Sign up with a new account</h1>
@@ -125,7 +125,7 @@
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
 					if (formData.get('password').length >= 8) {
 						if (formData.get('password') === formData.get('confirmpassword')) {
-							errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
+							errorSpan.innerHTML = '<img src="/loading.gif" alt="Loading GIF" class="size-6">';
 							fetch('/signup', {
 								method: 'POST',
 								headers: {

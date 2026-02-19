@@ -77,8 +77,8 @@
 		<meta charset="UTF-8">
 		<title>Blue Docs Login</title>
 
-		<link href="/styles/output.css" rel="stylesheet" type="text/css">
-		<link href="/public/loading.gif" rel="preload" as="image">
+		<link href="/output.css" rel="stylesheet" type="text/css">
+		<link href="/loading.gif" rel="preload" as="image">
 	</head>
 
 	<body>
@@ -88,7 +88,7 @@
 			<div class="flex flex-col items-center justify-between w-1/2 lg:w-1/5 gap-7">
 
 				<!-- Logo -->
-				<a href="/index" class="w-full"><img src="/public/templogo.svg" alt="Temporary Blue Docs Logo"></a>
+				<a href="/index" class="w-full"><img src="/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 
 				<!-- Login Form -->
 				<h1 class="">Log in with an existing account</h1>
@@ -115,7 +115,7 @@
 			const formData = new FormData(document.getElementById('loginForm'));
 			if (formData.get('email') && formData.get('password')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
-					errorSpan.innerHTML = '<img src="/public/loading.gif" alt="Loading GIF" class="size-6">';
+					errorSpan.innerHTML = '<img src="/loading.gif" alt="Loading GIF" class="size-6">';
 					fetch('login.php', {
 						method: 'POST',
 						headers: {
