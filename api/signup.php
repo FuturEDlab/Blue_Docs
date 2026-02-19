@@ -47,12 +47,12 @@
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
 
-				$header_lines = preg_split('/\r\n|\r|\n/', trim($header));
+				$header_lines = preg_split('/\R/', trim($header ?? ''));
 				foreach ($header_lines as $line) {
 					/* Skip content-length header. */
-					/*if (stripos($line, 'content-length:') === 0) {
+					if (stripos($line, 'content-length:') === 0) {
 						continue;
-					}*/
+					}
 					header($line);
 				}
 				echo $body;
