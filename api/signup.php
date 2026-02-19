@@ -47,6 +47,8 @@
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
 
+				error_reporting(0); 
+				ini_set('display_errors', 0);
 				$header_lines = preg_split('/\R/', trim($header ?? ''));
 				foreach ($header_lines as $line) {
 					/* Skip content-length header. */
