@@ -41,7 +41,6 @@
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
 				echo $response;
-				curl_close($ch);
 			}
 
 		} else {

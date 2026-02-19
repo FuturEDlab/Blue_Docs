@@ -53,7 +53,6 @@
 					}
 				}
 				echo $body;
-				curl_close($ch);
 			}
 
 		} else {
