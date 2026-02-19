@@ -1,9 +1,4 @@
 <?php
-	/* Only required before link to Neon */
-	$_ENV = [ 'BLUE_DOCS_NEON_AUTH_BASE_URL' => 'https://ep-empty-block-aihtcwkp.neonauth.c-4.us-east-1.aws.neon.tech/neondb/auth',
-		'VERCEL_URL' => 'http://localhost:4000'
-	];
-
 	/* Pass request to resend OTP email to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['email'])) {

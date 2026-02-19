@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	/* Pass OTP submission request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['email']) && isset($_POST['otp'])) {
