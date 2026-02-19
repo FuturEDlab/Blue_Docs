@@ -1,7 +1,6 @@
 ﻿<?php
 	/* Pass sign-up request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		header('Content-Type: application/json');
 		if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastinitial'])) {
 			$email = htmlspecialchars($_POST['email']);
 			$password = htmlspecialchars($_POST['password']);

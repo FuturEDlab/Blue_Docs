@@ -1,7 +1,6 @@
 ﻿<?php
 	/* Pass OTP submission request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		header('Content-Type: application/json');
 		if (isset($_POST['email']) && isset($_POST['otp'])) {
 			$email = htmlspecialchars($_POST['email']);
 			$otp = htmlspecialchars($_POST['otp']);

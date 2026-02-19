@@ -1,7 +1,6 @@
 ﻿<?php
 	/* Pass sign-in request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		header('Content-Type: application/json');
 		if (isset($_POST['email']) && isset($_POST['password'])) {
 			$email = htmlspecialchars($_POST['email']);
 			$password = htmlspecialchars($_POST['password']);
@@ -116,7 +115,7 @@
 			if (formData.get('email') && formData.get('password')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
 					errorSpan.innerHTML = '<img src="/loading.gif" alt="Loading GIF" class="size-6">';
-					fetch('login.php', {
+					fetch('/login', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/x-www-form-urlencoded'
