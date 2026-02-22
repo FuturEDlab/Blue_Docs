@@ -1,6 +1,5 @@
 <?php
 	session_start();
-	$_SESSION['email'] = 'yeakeya@mail.gvsu.edu';
 
 	/* Pass OTP submission request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -162,7 +161,8 @@
 		function resendOTP() {
 			errorSpan.innerHTML = '<img src="/loading.gif" alt="Loading GIF" class="size-6">';
 			fetch('/resend', {
-				method: 'POST'
+				method: 'POST',
+				credentials: 'same-origin'
 			})
 			.then(response => {
 				if (response.status >= 500) {
