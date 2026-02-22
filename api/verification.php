@@ -158,6 +158,7 @@
 			}
 		});
 
+		/* Handle Email Resend Request */
 		function resendOTP() {
 			errorSpan.innerHTML = '<img src="/loading.gif" alt="Loading GIF" class="size-6">';
 			fetch('/resend', {
@@ -187,10 +188,9 @@
 	</script>
 
 	<script>
-		/* OTP Custom Input Handling */
-
 		const verificationDigits = [...document.getElementById('otpForm').querySelectorAll('input[type=text]')];
 
+		/* Handle Key Input */
 		const handleKeyDown = (e) => {
 			if (!/^[0-9]{1}$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab' && !e.metaKey) {
 				e.preventDefault();
@@ -208,6 +208,7 @@
 			}
 		}
 
+		/* Handle Input Update */
 		const handleInput = (e) => {
 			const { target } = e;
 			const index = verificationDigits.indexOf(target)
@@ -232,10 +233,12 @@
 			}
 		}
 
+		/* Handle Focus */
 		const handleFocus = (e) => {
 			e.target.select();
 		}
 
+		/* Handle Paste */
 		const handlePaste = (e) => {
 			e.preventDefault();
 			const text = e.clipboardData.getData('text');
