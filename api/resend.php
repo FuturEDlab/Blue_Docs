@@ -1,8 +1,8 @@
 <?php
+	session_start();
+
 	/* Pass request to resend OTP email to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		session_start();
-
 		if (isset($_SESSION['email'])) {
 			$email = htmlspecialchars($_SESSION['email']);
 

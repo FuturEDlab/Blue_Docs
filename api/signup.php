@@ -1,4 +1,6 @@
 <?php
+	session_start();
+
 	/* Pass sign-up request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastinitial'])) {
@@ -40,8 +42,8 @@
 			} else {
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				if ($http_code == 200) {
-					session_start();
 					$_SESSION['email'] = $email;
+					session_write_close();
 				}
 				http_response_code($http_code);
 				echo $response;
