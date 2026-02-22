@@ -39,6 +39,10 @@
 				echo json_encode(['curl_error' => curl_error($ch)]);
 			} else {
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+				if ($http_code == 200) {
+					session_start();
+					$_SESSION['email'] = $email;
+				}
 				http_response_code($http_code);
 				echo $response;
 			}
