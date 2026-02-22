@@ -40,11 +40,9 @@
 			if ($response === false) {
 				echo json_encode(['curl_error' => curl_error($ch)]);
 			} else {
+				$_SESSION['email'] = $email;
+				session_write_close();
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-				if ($http_code == 200) {
-					$_SESSION['email'] = $email;
-					session_write_close();
-				}
 				http_response_code($http_code);
 				echo $response;
 			}
