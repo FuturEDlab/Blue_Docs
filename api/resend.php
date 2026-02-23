@@ -7,7 +7,7 @@
 			$email = htmlspecialchars($_COOKIE['email']);
 
 			/* Set Auth URL */
-			$url = $_ENV['PREVIEW_NEON_AUTH_BASE_URL'] . '/email-otp/send-verification-otp';
+			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/email-otp/send-verification-otp';
 
 			/* Construct Headers */
 			$headers = [

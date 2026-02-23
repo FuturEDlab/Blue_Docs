@@ -6,7 +6,7 @@
 			$password = htmlspecialchars($_POST['password']);
 
 			/* Set Auth URL */
-			$url = $_ENV['PREVIEW_NEON_AUTH_BASE_URL'] . '/sign-in/email';
+			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/sign-in/email';
 
 			/* Construct Headers */
 			$headers = [
