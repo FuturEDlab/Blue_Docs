@@ -190,7 +190,7 @@
 
 		/* Handle Key Input */
 		const handleKeyDown = (e) => {
-			if (!/^[0-9]{1}$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab' && !e.metaKey) {
+			if (!/^[0-9]{1}$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab' && !e.metaKey && e.key != 'Ctrl') {
 				e.preventDefault();
 			}
 
@@ -245,6 +245,17 @@
 			}
 			const digits = text.split('');
 			verificationDigits.forEach((input, index) => input.value = digits[index]);
+
+			let complete = true;
+			for (const digit of verificationDigits) {
+				if (digit.value == '') {
+					complete = false;
+					break;
+				}
+			}
+			if (complete) {
+				document.getElementById('otpSubmit').disabled = false;
+			}
 		}
 
 		verificationDigits.forEach((input) => {

@@ -3,8 +3,8 @@
 
 	/* Pass request to resend OTP email to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		if (isset($_SESSION['email'])) {
-			$email = htmlspecialchars($_SESSION['email']);
+		if (isset($_COOKIE['email'])) {
+			$email = htmlspecialchars($_COOKIE['email']);
 
 			/* Set Auth URL */
 			$url = $_ENV['PREVIEW_NEON_AUTH_BASE_URL'] . '/email-otp/send-verification-otp';
