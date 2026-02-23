@@ -1,11 +1,9 @@
 <?php
-	session_start();
-
 	/* Pass OTP submission request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$jsonData = json_decode(file_get_contents('php://input'), true);
 		if (isset($jsonData['otp'])) {
-			$email = htmlspecialchars($_SESSION['email']);
+			$email = htmlspecialchars($_COOKIE['email']);
 			$otp = htmlspecialchars($jsonData['otp']);
 
 			/* Set Auth URL */
@@ -34,7 +32,7 @@
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-			/* Handle cURL Response and End Session */
+			/* Handle cURL Response */
 			$response = curl_exec($ch);
 			if ($response === false) {
 				die('cURL Error: ' . curl_error($ch));
@@ -53,7 +51,7 @@
 		exit;
 
 	/* Return if not a redirected GET request or POST Request */
-	} else if ($_SERVER['REQUEST_METHOD'] != 'GET' || empty($_SERVER['HTTP_REFERER']) || !isset($_SESSION['email'])) {
+	} else if ($_SERVER['REQUEST_METHOD'] != 'GET' || empty($_SERVER['HTTP_REFERER']) || !isset($_COOKIE['email'])) {
 		http_response_code(405);
 		exit('Method not allowed.');
 	}
@@ -82,7 +80,7 @@
 				<h1 class="text-4xl font-bold">Verification code</h1>
 
 				<!-- Verification Message -->
-				<p class="text-lg text-center">A verification code has been sent to <?php echo substr_replace($_SESSION['email'], str_repeat('*', strlen($_SESSION['email']) - 7), 3, strlen($_SESSION['email']) - 7) ?>.
+				<p class="text-lg text-center">A verification code has been sent to <?php echo substr_replace($_COOKIE['email'], str_repeat('*', strlen($_COOKIE['email']) - 7), 3, strlen($_COOKIE['email']) - 7) ?>.
 				<br>Please check your email and enter the code below:</p>
 
 				<!-- Verification Form -->

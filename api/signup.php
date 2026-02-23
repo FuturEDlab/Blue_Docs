@@ -1,6 +1,4 @@
 <?php
-	session_start();
-
 	/* Pass sign-up request to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['firstname']) && isset($_POST['lastinitial'])) {
@@ -35,13 +33,12 @@
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-			/* Handle cURL Response and End Session */
+			/* Handle cURL Response */
 			$response = curl_exec($ch);
 			if ($response === false) {
 				echo json_encode(['curl_error' => curl_error($ch)]);
 			} else {
-				$_SESSION['email'] = $email;
-				session_write_close();
+				header('Set-Cookie: email=' . $email);
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
 				echo $response;
@@ -79,7 +76,7 @@
 			<div class="flex flex-col items-center justify-between w-1/2 lg:w-1/5 gap-7">
 
 				<!-- Logo -->
-				<a href="/api/index.php" class="w-full"><img src="/templogo.svg" alt="Temporary Blue Docs Logo"></a>
+				<a href="/index" class="w-full"><img src="/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 
 				<!-- Signup Form -->
 				<h1 class="">Sign up with a new account</h1>
@@ -131,7 +128,7 @@
 							.then(data => {
 								if (data !== undefined) {
 									if ('user' in data) {
-										//window.location.href='/verification';
+										window.location.href='/verification';
 									} else {
 										errorSpan.textContent = data.message;
 									}
