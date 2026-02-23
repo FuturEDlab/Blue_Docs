@@ -7,7 +7,7 @@
 			$name = htmlspecialchars($_POST['firstname']) . ' ' . htmlspecialchars($_POST['lastinitial']);
 
 			/* Set Auth URL */
-			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/sign-up/email';
+			$url = $_ENV['PREVIEW_NEON_AUTH_BASE_URL'] . '/sign-up/email';
 
 			/* Construct Headers */
 			$headers = [

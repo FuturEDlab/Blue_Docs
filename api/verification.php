@@ -7,7 +7,7 @@
 			$otp = htmlspecialchars($jsonData['otp']);
 
 			/* Set Auth URL */
-			$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/email-otp/verify-email';
+			$url = $_ENV['PREVIEW_NEON_AUTH_BASE_URL'] . '/email-otp/verify-email';
 
 			/* Construct Headers */
 			$headers = [
