@@ -38,7 +38,7 @@
 			if ($response === false) {
 				echo json_encode(['curl_error' => curl_error($ch)]);
 			} else {
-				header('Set-Cookie: email=' . $email);
+				header('Set-Cookie: email=' . $email . '; Max-Age=900; Secure; HttpOnly');
 				$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 				http_response_code($http_code);
 				echo $response;

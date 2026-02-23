@@ -98,7 +98,7 @@
 					</div>
 
 					<!-- Resend Link -->
-					<p class="font-bold">Didn't get a code? <button onclick="resendOTP()" class="cursor-pointer text-sky-400">Resend</button></p>
+					<p class="font-bold">Didn't get a code? <button type="button" onclick="resendOTP()" class="cursor-pointer text-sky-400">Resend</button></p>
 
 					<!-- Code Submission Button -->
 					<button id="otpSubmit" type="submit" disabled class="block w-half h-20 p-5 rounded-sm bg-sky-200 outline-sky-400 outline-2 hover:bg-sky-100 hover:outline-sky-300 focus:bg-sky-200 focus:outline-sky-400 disabled:bg-gray-300 disabled:outline-gray-500">Verify Code</button>
