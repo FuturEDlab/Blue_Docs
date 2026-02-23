@@ -131,7 +131,7 @@
 							.then(data => {
 								if (data !== undefined) {
 									if ('user' in data) {
-										window.location.href='/verification';
+										//window.location.href='/verification';
 									} else {
 										errorSpan.textContent = data.message;
 									}
