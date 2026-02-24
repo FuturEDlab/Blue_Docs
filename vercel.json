@@ -1,0 +1,29 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "functions": {
+    "api/*.php": {
+      "runtime": "vercel-php@0.9.0"
+    }
+  },
+  "name": "Blue Docs",
+  "regions": [ "cle1" ],
+  "redirects": [
+    {
+      "source": "/api/:path",
+      "destination": "/:path"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:match",
+      "destination": "/api/:match"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    }
+  ],
+  "trailingSlash": false,
+  "version": 2
+}
