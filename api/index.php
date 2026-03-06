@@ -1,9 +1,9 @@
 <?php
-	$host = $_ENV['PGHOST'];
-	$port = $_ENV['PGPORT'] ?? 5432;
-	$dbname = $_ENV['PGDATABASE'];
-	$user = $_ENV['PGUSER'];
-	$password = "endpoint=" . $_ENV['NEON_PROJECT_ID'] . ";" . $_ENV['PGPASSWORD'];
+	$host = 'ep-flat-hall-ail0qi1c-pooler.c-4.us-east-1.aws.neon.tech';//$_ENV['PGHOST'];
+	$port = 5432;//$_ENV['PGPORT'] ?? 5432;
+	$dbname = 'neondb';//$_ENV['PGDATABASE'];
+	$user = 'neondb_owner';//$_ENV['PGUSER'];
+	$password = "endpoint=" . 'wild-cloud-70139743' . ';' . 'npg_49TBDylUzkut';//$_ENV['NEON_PROJECT_ID'] . ";" . $_ENV['PGPASSWORD'];
 	//$options = [ endpoint => $_ENV['NEON_PROJECT_ID'] ];
 
 	try {
@@ -27,6 +27,7 @@
 
 		<link href="/public/output.css" rel="stylesheet" type="text/css">
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+		<script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 	</head>
 
 	<body>
@@ -85,7 +86,7 @@
 				<el-dropdown class="flex justify-center">
 
 					<!-- Dropdown Button -->
-					<button class="cursor-pointer flex mt-2 text-lg font-bold items-center">
+					<button id="sortButton" class="cursor-pointer flex mt-2 text-lg font-bold items-center">
 						Sort
 						<svg viewBox="0 0 100 100" class="ml-2 h-4">
 							<polygon points="50 15, 100 100, 0 100"/>
@@ -124,27 +125,86 @@
 				<dialog id="filterDrawer" class="fixed inset-0 size-auto max-h-none max-w-none bg-transparent backdrop:bg-transparent">
 					<el-dialog-backdrop class="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
-					<div tabindex="0" class="absolute inset-y-0 left-0 pr-10 focus:outline-none">
-						<el-dialog-panel class="group/dialog-panel flex flex-col mr-auto block size-full max-w-md bg-gray-300 rounded rounded-4 rounded-tl-[0px] rounded-bl-[0px] border border-gray-600 border-3 border-l-0 transform transition duration-500 ease-in-out data-closed:-translate-x-full sm:duration-700 p-5">
+					<div tabindex="0" class="absolute inset-y-0 left-0 pr-10 w-lg focus:outline-none">
+						<el-dialog-panel class="group/dialog-panel flex flex-col mr-auto block size-full bg-gray-300 rounded rounded-4 rounded-tl-[0px] rounded-bl-[0px] border border-gray-600 border-3 border-l-0 transform transition duration-500 ease-in-out data-closed:-translate-x-full sm:duration-700 p-5">
 
 							<!-- Filter Header -->
 							<div class="flex mt-0">
 								<h2 class="text-3xl font-bold">Filter</h2>
-								<button type="button" command="close" commandfor="filterDrawer" class="ml-auto font-bold hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+								<button type="button" command="close" commandfor="filterDrawer" class="cursor-pointer ml-auto font-bold hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
 									<span class="sr-only">Close Filter Panel</span>
 									X
 								</button>
 							</div>
 
 							<!-- Filter Options -->
-							<div class="my-auto overflow-auto flex flex-col">
+							<div class="overflow-auto flex flex-col items-start">
+								<div class="flex flex-col justify-left">
 
+									<!-- Author Filter Button -->
+									<button id='authorButton' onclick="toggleHidden(document.getElementById('authorFilter'))" class="group cursor-pointer flex mt-2 text-lg font-bold items-center gap-3">
+										<svg viewBox="0 0 100 100" class="ml-2 h-4 group-checked:rotate-180">
+											<polygon points="50 15, 100 100, 0 100"/>
+										</svg>
+										Author
+									</button>
+
+									<!-- Dropdown Contents -->
+									<div id="authorFilter" anchor="bottom start" hidden class="overflow-hidden bg-transparent max-w-full px-3">
+										<div id="authorDropdown" class="py-1 flex flex-col">
+											<?php
+												$authors = [];
+
+												foreach ($results as $document) {
+													if (!array_key_exists($document['author'], $authors)) {
+														$authors[$document['author']] = 1;
+													} else {
+														$authors[$document['author']] += 1;											}
+												}
+
+												foreach ($authors as $author => $number) {
+													echo '<div>
+														<input type="checkbox" id="' . $author . '" name="' . $author . '" class="cursor-pointer"/>
+														<label for="' . $author . '" class="cursor-pointer">' . $author . ' (' . $number . ')' . '</label>
+													</div>';
+												}
+											?>
+										</div>
+									</div>
+
+									<!-- Date Created Filter Button -->
+									<button id='dateCreatedButton' onclick="toggleHidden(document.getElementById('dateCreatedFilter'))" class="group cursor-pointer flex mt-2 text-lg font-bold items-center gap-3">
+										<svg viewBox="0 0 100 100" class="ml-2 h-4 group-checked:rotate-180">
+											<polygon points="50 15, 100 100, 0 100"/>
+										</svg>
+										Date Created
+									</button>
+
+									<!-- Dropdown Contents -->
+									<div id="dateCreatedFilter" anchor="bottom start" hidden class="overflow-hidden bg-transparent max-w-full p-3">
+										<div id="date-range-picker" date-rangepicker class="flex items-center">
+											<div class="relative">
+												<div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+													<svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
+												</div>
+												<input id="datepicker-range-start" name="start" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date start">
+											</div>
+											<span class="mx-4 text-body">to</span>
+											<div class="relative">
+												<div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+													<svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
+												</div>
+												<input id="datepicker-range-end" datepicker-orientation="bottom right" name="end" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date end">
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 
 							<!-- Filter Application Buttons -->
-							<div>
-								<button type="button" class="text-sm m-3 p-3 rounded-sm bg-gray-300 outline-gray-500 hover:bg-gray-200 hover:outline-gray-400 focus:bg-gray-300 focus:outline-gray-500 outline-3">Clear Filter</button>
-								<button type="button" class="text-sm m-3 p-3 rounded-sm bg-sky-200 outline-sky-400 hover:bg-sky-100 hover:outline-sky-300 focus:bg-sky-200 focus:outline-sky-400 outline-3">Apply Changes</button>
+							<div class="flex mt-auto">
+								<button type="button" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-gray-300 outline-gray-500 hover:bg-gray-200 hover:outline-gray-400 focus:bg-gray-300 focus:outline-gray-500 outline-3">Clear Filter</button>
+								<button type="button" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-sky-200 outline-sky-400 hover:bg-sky-100 hover:outline-sky-300 focus:bg-sky-200 focus:outline-sky-400 outline-3">Apply Changes</button>
 							</div>
 						</el-dialog-panel>
 					</div>
@@ -158,40 +218,7 @@
 				foreach ($results as $document) {
 					echo
 					'<a href="#" hidden class="flex flex-col gap-1 bg-sky-400 p-6 m-6 rounded-lg h-39">
-						<h3 class="text-lg font-bold">' . $document['name'] . '</h5>
-						<div>
-							<p class="text-xs truncate">Author: ' . $document['author'] . '</p>
-							<p class="text-xs">Date Created: <span>' . substr($document['date_created'], 0, strpos($document['date_created'], ' ')) . '<em hidden>' . substr($document['date_created'], strpos($document['date_created'], ' ')) . '</em></span></p>
-						</div>
-						<p class="text-sm line-clamp-2">' . $document['description'] . '</p>
-					</a>';
-				}
-				foreach ($results as $document) {
-					echo
-					'<a href="#" hidden class="flex flex-col gap-1 bg-sky-400 p-6 m-6 rounded-lg h-39">
-						<h3 class="text-lg font-bold">' . $document['name'] . '</h5>
-						<div>
-							<p class="text-xs truncate">Author: ' . $document['author'] . '</p>
-							<p class="text-xs">Date Created: <span>' . substr($document['date_created'], 0, strpos($document['date_created'], ' ')) . '<em hidden>' . substr($document['date_created'], strpos($document['date_created'], ' ')) . '</em></span></p>
-						</div>
-						<p class="text-sm line-clamp-2">' . $document['description'] . '</p>
-					</a>';
-				}
-				foreach ($results as $document) {
-					echo
-					'<a href="#" hidden class="flex flex-col gap-1 bg-sky-400 p-6 m-6 rounded-lg h-39">
-						<h3 class="text-lg font-bold">' . $document['name'] . '</h5>
-						<div>
-							<p class="text-xs truncate">Author: ' . $document['author'] . '</p>
-							<p class="text-xs">Date Created: <span>' . substr($document['date_created'], 0, strpos($document['date_created'], ' ')) . '<em hidden>' . substr($document['date_created'], strpos($document['date_created'], ' ')) . '</em></span></p>
-						</div>
-						<p class="text-sm line-clamp-2">' . $document['description'] . '</p>
-					</a>';
-				}
-				foreach ($results as $document) {
-					echo
-					'<a href="#" hidden class="flex flex-col gap-1 bg-sky-400 p-6 m-6 rounded-lg h-39">
-						<h3 class="text-lg font-bold">' . $document['name'] . '</h5>
+						<h3 class="text-lg font-bold">' . $document['name'] . '</h3>
 						<div>
 							<p class="text-xs truncate">Author: ' . $document['author'] . '</p>
 							<p class="text-xs">Date Created: <span>' . substr($document['date_created'], 0, strpos($document['date_created'], ' ')) . '<em hidden>' . substr($document['date_created'], strpos($document['date_created'], ' ')) . '</em></span></p>
@@ -219,7 +246,26 @@
 		document.getElementById('chronologicalBackward').addEventListener('click', function(event) {
 			event.stopImmediatePropagation();
 		});
+		<?php
+			foreach ($authors as $author => $number) {
+				echo 'document.getElementById(\'' . $author . '\').addEventListener(\'click\', function(event) {
+					event.stopImmediatePropagation();
+				});';
+			}
+		?>
 
+		/* Rotate dropdown arrows on click. */
+		document.getElementById('sortButton').addEventListener('click', function(event) {
+			this.querySelector('svg').classList.toggle('rotate-180');
+		});
+		document.getElementById('authorButton').addEventListener('click', function(event) {
+			this.querySelector('svg').classList.toggle('rotate-180');
+		});
+		document.getElementById('dateCreatedButton').addEventListener('click', function(event) {
+			this.querySelector('svg').classList.toggle('rotate-180');
+		});
+		
+		/* Apply filters and search restrictions. */
 		function applyFilters() {
 			const main = document.querySelector('main');
 			const searchValue = document.getElementById('search').value;
@@ -241,6 +287,7 @@
 			}
 		}
 
+		/* Sort the document elements. */
 		function sort(radioButton) {
 			const main = document.querySelector('main');
 			let docs = Array.from(main.children);
@@ -263,9 +310,28 @@
 			}
 		}
 
+		/* Toggle hidden attribute. */
+		function toggleHidden(element) {
+			element.hidden = !element.hidden;
+		}
+	</script>
+
+	<script>
+		/* Sort alphabetically by default on HTML load. */
 		document.addEventListener('DOMContentLoaded', function() {
 			sort(document.getElementById('alphabeticalForward'));
 			applyFilters();
 		});
+	</script>
+
+	<script>
+		/* Move datepicker calendars into respective filter divs on HTML and script load. */
+		window.onload = function() {
+			var datepickers = document.querySelectorAll(".datepicker");
+			document.getElementById('date-range-picker').appendChild(datepickers[0]);
+			datepickers[1].classList.remove('datepicker-orient-left');
+			datepickers[1].classList.add('datepicker-orient-right');
+			document.getElementById('date-range-picker').appendChild(datepickers[1]);
+		};
 	</script>
 </HTML>
