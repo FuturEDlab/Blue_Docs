@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="132.64214mm"
+   height="63.014187mm"
+   viewBox="0 0 132.64214 63.014187"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(-24.311528,-42.859538)">
+    <path
+       id="rect1"
+       style="fill:#2466f4;fill-opacity:1;stroke:#000000;stroke-width:0.529167;stroke-opacity:0"
+       d="m 69.323184,56.094405 -10e-7,49.165545 h -44.74707 v -62.135831 0 h 31.776822" />
+    <text
+       xml:space="preserve"
+       style="font-size:17.0535px;font-family:'MV Boli';-inkscape-font-specification:'MV Boli, Normal';fill:#2466f4;fill-opacity:1;stroke:#000000;stroke-width:0.355281;stroke-opacity:0"
+       x="77.695419"
+       y="57.259274"
+       id="text1"><tspan
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.0535px;font-family:'Bodoni MT';-inkscape-font-specification:'Bodoni MT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.355281"
+         x="77.695419"
+         y="57.259274">Temporary</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.0535px;font-family:'Bodoni MT';-inkscape-font-specification:'Bodoni MT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.355281"
+         x="77.695419"
+         y="79.271049"
+         id="tspan2">BlueDocs</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.0535px;font-family:'Bodoni MT';-inkscape-font-specification:'Bodoni MT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.355281"
+         x="77.695419"
+         y="101.28282"
+         id="tspan3">Logo</tspan></text>
+  </g>
+</svg>
