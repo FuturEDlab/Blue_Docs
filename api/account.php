@@ -1,9 +1,9 @@
 <?php
-	$host = 'ep-flat-hall-ail0qi1c-pooler.c-4.us-east-1.aws.neon.tech';//$_ENV['PGHOST'];
-	$port = 5432;//$_ENV['PGPORT'] ?? 5432;
-	$dbname = 'neondb';//$_ENV['PGDATABASE'];
-	$user = 'neondb_owner';//$_ENV['PGUSER'];
-	$password = "endpoint=" . 'wild-cloud-70139743' . ';' . 'npg_49TBDylUzkut';//$_ENV['NEON_PROJECT_ID'] . ";" . $_ENV['PGPASSWORD'];
+	$host = $_ENV['PGHOST'];
+	$port = $_ENV['PGPORT'] ?? 5432;
+	$dbname = $_ENV['PGDATABASE'];
+	$user = $_ENV['PGUSER'];
+	$password = "endpoint=" . $_ENV['NEON_PROJECT_ID'] . ";" . $_ENV['PGPASSWORD'];
 	//$options = [ endpoint => $_ENV['NEON_PROJECT_ID'] ];
 
 	try {
