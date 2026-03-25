@@ -344,7 +344,11 @@
   }
   .order-0 {
     order: 0;
+  .top-10 {
+    top: calc(var(--spacing) * 10);
   }
+  .left-10 {
+    left: calc(var(--spacing) * 10);
   .order-none {
     order: 0;
   }
@@ -570,6 +574,9 @@
   .size-7 {
     width: calc(var(--spacing) * 7);
     height: calc(var(--spacing) * 7);
+  .size-6 {
+    width: calc(var(--spacing) * 6);
+    height: calc(var(--spacing) * 6);
   }
   .size-8 {
     width: calc(var(--spacing) * 8);
@@ -582,6 +589,8 @@
   .size-auto {
     width: auto;
     height: auto;
+  .h-20 {
+    height: calc(var(--spacing) * 20);
   }
   .size-full {
     width: 100%;
@@ -638,9 +647,13 @@
   .w-1\/4 {
     width: calc(1/4 * 100%);
   }
+  .w-2\/3 {
+    width: calc(2/3 * 100%);
   .w-1\/5 {
     width: calc(1/5 * 100%);
   }
+  .w-15 {
+    width: calc(var(--spacing) * 15);
   .w-1\/6 {
     width: calc(1/6 * 100%);
   }
@@ -679,6 +692,8 @@
   }
   .w-auto {
     width: auto;
+  .w-47\/100 {
+    width: calc(47/100 * 100%);
   }
   .w-full {
     width: 100%;
@@ -1059,6 +1074,8 @@
   }
   .justify-items-end {
     justify-items: end;
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
   }
   .justify-items-end-safe {
     justify-items: safe end;
@@ -1220,9 +1237,13 @@
   }
   .rounded-4xl {
     border-radius: var(--radius-4xl);
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
   }
   .rounded-lg {
     border-radius: var(--radius-lg);
+  .gap-7 {
+    gap: calc(var(--spacing) * 7);
   }
   .rounded-md {
     border-radius: var(--radius-md);
@@ -1346,6 +1367,8 @@
   .border-dashed {
     --tw-border-style: dashed;
     border-style: dashed;
+  .border-sky-400 {
+    border-color: var(--color-sky-400);
   }
   .border-dotted {
     --tw-border-style: dotted;
@@ -2106,9 +2129,13 @@
   }
   .text-gray-500 {
     color: var(--color-gray-500);
+  .text-red-500 {
+    color: var(--color-red-500);
   }
   .text-gray-800 {
     color: var(--color-gray-800);
+  .text-sky-400 {
+    color: var(--color-sky-400);
   }
   .text-white {
     color: var(--color-white);
@@ -2534,6 +2561,9 @@
       @media (hover: hover) {
         background-color: var(--color-gray-200);
       }
+  .invalid\:text-red-500 {
+    &:invalid {
+      color: var(--color-red-500);
     }
   }
   .hover\:bg-sky-100 {
@@ -2722,6 +2752,9 @@
   .sm\:grid-cols-2 {
     @media (width >= 40rem) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+  .lg\:w-1\/3 {
+    @media (width >= 64rem) {
+      width: calc(1/3 * 100%);
     }
   }
   .sm\:duration-700 {
@@ -2732,6 +2765,8 @@
   }
   .md\:w-1\/5 {
     @media (width >= 48rem) {
+  .lg\:w-1\/5 {
+    @media (width >= 64rem) {
       width: calc(1/5 * 100%);
     }
   }
@@ -2766,6 +2801,7 @@
     }
   }
   .lg\:grid-cols-3 {
+  .lg\:w-1\/10 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -2885,12 +2921,13 @@
   syntax: "*";
   inherits: false;
   initial-value: 1;
-}
+      width: calc(1/10 * 100%);
+    }
 @property --tw-scale-y {
   syntax: "*";
   inherits: false;
   initial-value: 1;
-}
+  }
 @property --tw-scale-z {
   syntax: "*";
   inherits: false;
