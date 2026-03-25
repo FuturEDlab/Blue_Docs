@@ -50,6 +50,7 @@
 				<!-- Dropdown Contents -->
 				<el-menu anchor="bottom end" popover>
 					<div class="py-1">
+						<button onclick="window.location.href='/account'">Account</button>
 						<button onclick="window.location.href='/login'">Sign In to BlueDocs</button>
 					</div>
 				</el-menu>
@@ -97,22 +98,22 @@
 					<el-menu id="sortMenu" anchor="bottom" popover>
 						<div id="sortDropdown" class="py-1 flex flex-row gap-3">
 							<label for="alphabeticalForward" class="select-none relative cursor-pointer text-sm rounded-xl p-2 has-checked:bg-sky-300 bg-gray-300">
-								<input checked type="radio" onclick="sort(this)" id="alphabeticalForward" name="sort" class="cursor-pointer absolute appearance-none inset-0" required/>
+								<input autocomplete="off" checked type="radio" onclick="sort(this)" id="alphabeticalForward" name="sort" class="cursor-pointer absolute appearance-none inset-0" required/>
 								A → Z
 							</label>
 
 							<label for="alphabeticalBackward" class="select-none relative cursor-pointer text-sm rounded-xl p-2 has-checked:bg-sky-300 bg-gray-300 justify-center items-center">
-								<input type="radio" onclick="sort(this)" id="alphabeticalBackward" name="sort" class="cursor-pointer absolute appearance-none inset-0" required/>
+								<input autocomplete="off" type="radio" onclick="sort(this)" id="alphabeticalBackward" name="sort" class="cursor-pointer absolute appearance-none inset-0" required/>
 								Z → A
 							</label>
 
 							<label for="chronologicalForward" class="select-none relative cursor-pointer text-sm rounded-xl p-2 has-checked:bg-sky-300 bg-gray-300 justify-center items-center">
-								<input type="radio" onclick="sort(this)" id="chronologicalForward" name="sort" class="cursor-pointer absolute appearance-none inset-0" required/>
+								<input autocomplete="off" type="radio" onclick="sort(this)" id="chronologicalForward" name="sort" class="cursor-pointer absolute appearance-none inset-0" required/>
 								New → Old
 							</label>
 
 							<label for="chronologicalBackward" class="select-none relative cursor-pointer text-sm rounded-xl p-2 has-checked:bg-sky-300 bg-gray-300 justify-center items-center">
-								<input type="radio" onclick="sort(this)" id="chronologicalBackward" name="sort" class="cursor-pointer absolute appearance-none inset-0" required/>
+								<input autocomplete="off" type="radio" onclick="sort(this)" id="chronologicalBackward" name="sort" class="cursor-pointer absolute appearance-none inset-0" required/>
 								Old → New
 							</label>
 						</div>
@@ -164,7 +165,7 @@
 
 												foreach ($authors as $author => $number) {
 													echo '<div>
-														<input type="checkbox" id="' . $author . '" name="' . $author . '" class="cursor-pointer"/>
+														<input checked autocomplete="off" type="checkbox" id="' . $author . '" name="' . $author . '" value="' . $author . '" class="cursor-pointer"/>
 														<label for="' . $author . '" class="cursor-pointer">' . $author . ' (' . $number . ')' . '</label>
 													</div>';
 												}
@@ -182,19 +183,19 @@
 
 									<!-- Dropdown Contents -->
 									<div id="dateCreatedFilter" anchor="bottom start" hidden class="overflow-hidden bg-transparent max-w-full p-3">
-										<div id="date-range-picker" date-rangepicker class="flex items-center">
+										<div id="date-created-picker" date-rangepicker class="flex items-center">
 											<div class="relative">
 												<div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
 													<svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
 												</div>
-												<input id="datepicker-range-start" name="start" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date start">
+												<input autocomplete="off" value="01/01/2026" name="start" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date start">
 											</div>
 											<span class="mx-4 text-body">to</span>
 											<div class="relative">
 												<div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
 													<svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
 												</div>
-												<input id="datepicker-range-end" datepicker-orientation="bottom right" name="end" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date end">
+												<input autocomplete="off" value="12/31/2026" name="end" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date end">
 											</div>
 										</div>
 									</div>
@@ -203,8 +204,8 @@
 
 							<!-- Filter Application Buttons -->
 							<div class="flex mt-auto">
-								<button type="button" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-gray-300 outline-gray-500 hover:bg-gray-200 hover:outline-gray-400 focus:bg-gray-300 focus:outline-gray-500 outline-3">Clear Filter</button>
-								<button type="button" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-sky-200 outline-sky-400 hover:bg-sky-100 hover:outline-sky-300 focus:bg-sky-200 focus:outline-sky-400 outline-3">Apply Changes</button>
+								<button type="button" onclick="clearFilters()" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-gray-300 outline-gray-500 hover:bg-gray-200 hover:outline-gray-400 focus:bg-gray-300 focus:outline-gray-500 outline-3">Clear Filter</button>
+								<button type="button" onclick="applyFilters()" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-sky-200 outline-sky-400 hover:bg-sky-100 hover:outline-sky-300 focus:bg-sky-200 focus:outline-sky-400 outline-3">Apply Changes</button>
 							</div>
 						</el-dialog-panel>
 					</div>
@@ -220,8 +221,8 @@
 					'<a href="#" hidden class="flex flex-col gap-1 bg-sky-400 p-6 m-6 rounded-lg h-39">
 						<h3 class="text-lg font-bold">' . $document['name'] . '</h3>
 						<div>
-							<p class="text-xs truncate">Author: ' . $document['author'] . '</p>
-							<p class="text-xs">Date Created: <span>' . substr($document['date_created'], 0, strpos($document['date_created'], ' ')) . '<em hidden>' . substr($document['date_created'], strpos($document['date_created'], ' ')) . '</em></span></p>
+							<p class="text-xs truncate">Author: <span class="authorName">' . $document['author'] . '</span></p>
+							<p class="text-xs">Date Created: <span class="dateCreated">' . substr($document['date_created'], 0, strpos($document['date_created'], ' ')) . '<em hidden>' . substr($document['date_created'], strpos($document['date_created'], ' ')) . '</em></span></p>
 						</div>
 						<p class="text-sm line-clamp-2">' . $document['description'] . '</p>
 					</a>';
@@ -264,6 +265,16 @@
 		document.getElementById('dateCreatedButton').addEventListener('click', function(event) {
 			this.querySelector('svg').classList.toggle('rotate-180');
 		});
+
+		/* Clear all filter restrictions. */
+		function clearFilters() {
+			for (const input of document.getElementById('authorDropdown').querySelectorAll('input')) {
+				input.checked = false;
+			}
+			for (const input of document.getElementById('date-created-picker').querySelectorAll('input')) {
+				input.value='';
+			}
+		}
 		
 		/* Apply filters and search restrictions. */
 		function applyFilters() {
@@ -271,8 +282,27 @@
 			const searchValue = document.getElementById('search').value;
 			let docsEmpty = true;
 
+			let authorFilter = [];
+			for (const input of document.getElementById('authorDropdown').querySelectorAll('input')) {
+				if(input.checked) {
+					authorFilter.push(input.value);
+				}
+			}
+
+			dateCreatedInputs = document.getElementById('date-created-picker').querySelectorAll('input');
+			dateCreatedValues = [new Date(dateCreatedInputs[0].value), new Date(dateCreatedInputs[1].value)];
+			dateCreatedValues[1].setHours(23);
+			dateCreatedValues[1].setMinutes(59);
+			dateCreatedValues[1].setSeconds(59);
+			dateCreatedValues[1].setMilliseconds(999);
+
 			for (const child of main.children) {
-				if (child.querySelector('h3').innerHTML.toLocaleLowerCase().indexOf(searchValue.toLocaleLowerCase()) > -1) {
+				console.log(new Date(child.querySelector('.dateCreated').textContent))
+				console.log(dateCreatedValues[0].getTime() <= new Date(child.querySelector('.dateCreated').textContent).getTime())
+				if (child.querySelector('h3').innerHTML.toLocaleLowerCase().indexOf(searchValue.toLocaleLowerCase()) > -1 && 
+					authorFilter.includes(child.querySelector('.authorName').textContent) &&
+					dateCreatedValues[0].getTime() <= new Date(child.querySelector('.dateCreated').textContent).getTime() && 
+					new Date(child.querySelector('.dateCreated').textContent).getTime() <= dateCreatedValues[1].getTime()) {
 					child.hidden = false;
 					docsEmpty = false;
 				} else {
@@ -328,10 +358,8 @@
 		/* Move datepicker calendars into respective filter divs on HTML and script load. */
 		window.onload = function() {
 			var datepickers = document.querySelectorAll(".datepicker");
-			document.getElementById('date-range-picker').appendChild(datepickers[0]);
-			datepickers[1].classList.remove('datepicker-orient-left');
-			datepickers[1].classList.add('datepicker-orient-right');
-			document.getElementById('date-range-picker').appendChild(datepickers[1]);
+			document.getElementById('date-created-picker').appendChild(datepickers[0]);
+			document.getElementById('date-created-picker').appendChild(datepickers[1]);
 		};
 	</script>
 </HTML>

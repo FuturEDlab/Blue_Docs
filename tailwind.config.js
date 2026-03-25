@@ -3,7 +3,7 @@ module.exports = {
     darkMode: false,
     theme: {
         colors: {
-            'neutral-tertiary-medium': 'gray-200'
+
         },
         fontFamily: {
 
