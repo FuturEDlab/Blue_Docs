@@ -25,13 +25,13 @@
 		<meta charset="UTF-8">
 		<title>Blue Docs</title>
 
-		<link href="/public/output.css" rel="stylesheet" type="text/css">
+		<link href="/output.css" rel="stylesheet" type="text/css">
 		<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 	</head>
 
 	<body class="flex flex-col justify-start h-full md:flex-row">
 		<search class="flex flex-row w-full md:w-1/5 md:flex-col">
-			<img src="/public/templogo.svg" alt="Temporary Blue Docs Logo" class="p-16 w-1/8 md:w-full">
+			<img src="/templogo.svg" alt="Temporary Blue Docs Logo" class="p-16 w-1/8 md:w-full">
 
 			<div class="flex flex-row gap-5 mx-14 my-4 md:flex-col">
 				<label for="accountSelect" class="select-none relative cursor-pointer text-lg rounded-lg p-3 border border-4 border-transparent has-checked:bg-sky-200 has-checked:border-sky-400">
@@ -68,7 +68,7 @@
 						<h1>My Account</h1>
 
 						<div class="flex flex-row px-2 py-6">
-							<img class="size-12 mr-4" src="/public/profile.png" alt="Default Account Image">
+							<img class="size-12 mr-4" src="/profile.png" alt="Default Account Image">
 							<div class="flex flex-col">
 								Example Name
 								<a>Edit display image</a>

@@ -165,7 +165,7 @@
 
 												foreach ($authors as $author => $number) {
 													echo '<div>
-														<input checked autocomplete="off" type="checkbox" id="' . $author . '" name="' . $author . '" value="' . $author . '" class="cursor-pointer"/>
+														<input autocomplete="off" type="checkbox" id="' . $author . '" name="' . $author . '" value="' . $author . '" class="cursor-pointer"/>
 														<label for="' . $author . '" class="cursor-pointer">' . $author . ' (' . $number . ')' . '</label>
 													</div>';
 												}
@@ -188,14 +188,14 @@
 												<div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
 													<svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
 												</div>
-												<input autocomplete="off" value="01/01/2026" name="start" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date start">
+												<input autocomplete="off" name="start" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date start">
 											</div>
 											<span class="mx-4 text-body">to</span>
 											<div class="relative">
 												<div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
 													<svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/></svg>
 												</div>
-												<input autocomplete="off" value="12/31/2026" name="end" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date end">
+												<input autocomplete="off" name="end" type="text" class="block w-full ps-9 pe-3 py-2.5 border border-2 text-sm rounded-md px-3 py-2.5 placeholder:text-body" placeholder="Select date end">
 											</div>
 										</div>
 									</div>
@@ -204,8 +204,8 @@
 
 							<!-- Filter Application Buttons -->
 							<div class="flex mt-auto">
-								<button type="button" onclick="clearFilters()" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-gray-300 outline-gray-500 hover:bg-gray-200 hover:outline-gray-400 focus:bg-gray-300 focus:outline-gray-500 outline-3">Clear Filter</button>
-								<button type="button" onclick="applyFilters()" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-sky-200 outline-sky-400 hover:bg-sky-100 hover:outline-sky-300 focus:bg-sky-200 focus:outline-sky-400 outline-3">Apply Changes</button>
+								<button type="button" command="close" commandfor="filterDrawer" onclick="clearFilters()" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-gray-300 outline-gray-500 hover:bg-gray-200 hover:outline-gray-400 focus:bg-gray-300 focus:outline-gray-500 outline-3">Clear Filter</button>
+								<button type="button" command="close" commandfor="filterDrawer" onclick="applyFilters()" class="cursor-pointer text-sm w-1/2 m-3 p-3 rounded-sm bg-sky-200 outline-sky-400 hover:bg-sky-100 hover:outline-sky-300 focus:bg-sky-200 focus:outline-sky-400 outline-3">Apply Changes</button>
 							</div>
 						</el-dialog-panel>
 					</div>
@@ -217,12 +217,17 @@
 		<main class="-z-1 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-6 pt-0">
 			<?php
 				foreach ($results as $document) {
+					$date = new DateTime();
+					$date->setTimestamp(strtotime($document['date_created']));
+					$date->setTimezone(new DateTimeZone('America/Detroit'));
+					$date = $date->format(DateTime::W3C);
+
 					echo
 					'<a href="#" hidden class="flex flex-col gap-1 bg-sky-400 p-6 m-6 rounded-lg h-39">
 						<h3 class="text-lg font-bold">' . $document['name'] . '</h3>
 						<div>
 							<p class="text-xs truncate">Author: <span class="authorName">' . $document['author'] . '</span></p>
-							<p class="text-xs">Date Created: <span class="dateCreated">' . substr($document['date_created'], 0, strpos($document['date_created'], ' ')) . '<em hidden>' . substr($document['date_created'], strpos($document['date_created'], ' ')) . '</em></span></p>
+							<p class="text-xs">Date Created: <span class="dateCreated">' . substr($date, 0, strpos($date, 'T')) . '<em hidden>' . substr($date, strpos($date, 'T')) . '</em></span></p>
 						</div>
 						<p class="text-sm line-clamp-2">' . $document['description'] . '</p>
 					</a>';
@@ -274,6 +279,7 @@
 			for (const input of document.getElementById('date-created-picker').querySelectorAll('input')) {
 				input.value='';
 			}
+			applyFilters();
 		}
 		
 		/* Apply filters and search restrictions. */
@@ -283,26 +289,38 @@
 			let docsEmpty = true;
 
 			let authorFilter = [];
+			let authorFilterActivated = true;
 			for (const input of document.getElementById('authorDropdown').querySelectorAll('input')) {
 				if(input.checked) {
 					authorFilter.push(input.value);
 				}
 			}
+			if (authorFilter.length === 0) {
+				authorFilterActivated = false;
+			}
 
+			let dateCreatedStartActivated = true;
+			let dateCreatedEndActivated = true;
 			dateCreatedInputs = document.getElementById('date-created-picker').querySelectorAll('input');
 			dateCreatedValues = [new Date(dateCreatedInputs[0].value), new Date(dateCreatedInputs[1].value)];
-			dateCreatedValues[1].setHours(23);
-			dateCreatedValues[1].setMinutes(59);
-			dateCreatedValues[1].setSeconds(59);
-			dateCreatedValues[1].setMilliseconds(999);
+			if (dateCreatedInputs[0].value === '') {
+				dateCreatedStartActivated = false;
+			}
+			if (dateCreatedInputs[1].value === '') {
+				dateCreatedEndActivated = false;
+			} else {
+				dateCreatedValues[1].setHours(23);
+				dateCreatedValues[1].setMinutes(59);
+				dateCreatedValues[1].setSeconds(59);
+				dateCreatedValues[1].setMilliseconds(999);
+			}
 
 			for (const child of main.children) {
-				console.log(new Date(child.querySelector('.dateCreated').textContent))
-				console.log(dateCreatedValues[0].getTime() <= new Date(child.querySelector('.dateCreated').textContent).getTime())
 				if (child.querySelector('h3').innerHTML.toLocaleLowerCase().indexOf(searchValue.toLocaleLowerCase()) > -1 && 
-					authorFilter.includes(child.querySelector('.authorName').textContent) &&
-					dateCreatedValues[0].getTime() <= new Date(child.querySelector('.dateCreated').textContent).getTime() && 
-					new Date(child.querySelector('.dateCreated').textContent).getTime() <= dateCreatedValues[1].getTime()) {
+					(!authorFilterActivated || authorFilter.includes(child.querySelector('.authorName').textContent)) &&
+					(!dateCreatedStartActivated || dateCreatedValues[0].getTime() <= new Date(child.querySelector('.dateCreated').textContent).getTime()) && 
+					(!dateCreatedEndActivated || new Date(child.querySelector('.dateCreated').textContent).getTime() <= dateCreatedValues[1].getTime())) {
+
 					child.hidden = false;
 					docsEmpty = false;
 				} else {
