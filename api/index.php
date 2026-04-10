@@ -1,4 +1,39 @@
 <?php
+	/* Pull user session data via Neon data API. */
+
+	if (isset($_COOKIE['__Secure-neon-auth_session_token'])) {
+		/* Set Auth URL */
+		$url = $_ENV['BLUE_DOCS_NEON_AUTH_BASE_URL'] . '/get-session';
+
+		/* Construct Headers */
+		$headers = [
+			'Accept: application/json',
+			'Origin: ' . $_ENV['VERCEL_URL']
+		];
+
+		/* Initialize cURL */
+		$ch = curl_init();
+
+		/* Set cURL Options */
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_COOKIE, '__Secure-neon-auth.session_token=' . $_COOKIE['__Secure-neon-auth_session_token']);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		/* Handle cURL Response */
+		$response = curl_exec($ch);
+		if ($response === false) {
+			die('cURL Error: ' . curl_error($ch));
+		} else {
+			$userSession = json_decode($response, true);
+		}
+	}
+?>
+
+<?php
+	/* Pull document information via SQL connection. */
+
+	/* Set SQL Settings */
 	$host = $_ENV['PGHOST'];
 	$port = $_ENV['PGPORT'] ?? 5432;
 	$dbname = $_ENV['PGDATABASE'];
@@ -7,13 +42,15 @@
 	//$options = [ endpoint => $_ENV['NEON_PROJECT_ID'] ];
 
 	try {
+		/* Set Connection Details */
 		$dbInfo = sprintf("pgsql:host=%s;port=%d;dbname=%s;sslmode=require", $host, $port, $dbname);
 		$pdo = new PDO($dbInfo, $user, $password/*, $options*/);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-		// Query
+		/* Set SQL Query */
 		$stmt = $pdo->query('SELECT name, description, author, date_created FROM markdown_files');
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 	} catch (PDOException $e) {
 		die("Database connection failed: " . $e->getMessage());
 	}
@@ -42,16 +79,35 @@
 			<el-dropdown class="float-right">
 
 				<!-- Account Picture -->
-				<button class="cursor-pointer">
-					<span class="sr-only">Open Profile Menu</span>
-					<img class="size-8" src="/profile.png" alt="Default Account Image">
-				</button>
+				<?php
+					if (isset($userSession)) {
+						echo
+						'<button class="cursor-pointer">
+							<span class="sr-only">Open Profile Menu</span>
+							<h1 id=\'userImage\' class="select-none text-4xl text-shadow-sm">' . $userSession['user']['image'] . '<h1>
+						</button>';
+					} else {
+						echo
+						'<button class="cursor-pointer">
+							<span class="sr-only">Open Profile Menu</span>
+							<img class="size-8" src="/public/profile.png" alt="Default Account Image">
+						</button>';
+					}
+				?>
 
 				<!-- Dropdown Contents -->
 				<el-menu anchor="bottom end" popover>
-					<div class="py-1">
-						<button onclick="window.location.href='/account'">Account</button>
-						<button onclick="window.location.href='/login'">Sign In to BlueDocs</button>
+					<div class="mt-2 p-2 flex flex-col gap-1 rounded-md border-2 border-sky-400">
+						<?php
+							if (isset($userSession)) {
+								echo
+								'<button onclick="window.location.href=\'/account\'" class="cursor-pointer px-2 py-1">Account</button>
+								<button onclick="logout()" class="cursor-pointer px-2 py-1">Sign Out of BlueDocs</button>';
+							} else {
+								echo
+								'<button onclick="window.location.href=\'/login\'" class="cursor-pointer px-2 py-1">Sign In to BlueDocs</button>';
+							}
+						?>
 					</div>
 				</el-menu>
 
@@ -63,8 +119,8 @@
 
 			<!-- Welcome Header Text -->
 			<h1 class="text-4xl text-center">Welcome<?php
-				if (isset($_COOKIE['user'])) {
-					echo ', ' . $_COOKIE['user'];
+				if (isset($userSession)) {
+					echo ', ' . $userSession['user']['name'];
 				}
 			?>!</h1>
 
@@ -239,6 +295,25 @@
 	</body>
 
 	<script>
+		/* Move datepicker calendars into respective filter divs on HTML and script load. */
+		window.onload = function() {
+			var datepickers = document.querySelectorAll(".datepicker");
+			document.getElementById('date-created-picker').appendChild(datepickers[0]);
+			document.getElementById('date-created-picker').appendChild(datepickers[1]);
+		};
+	</script>
+
+	<script>
+		/* Sort alphabetically by default on HTML load. */
+		document.addEventListener('DOMContentLoaded', function() {
+			sort(document.getElementById('alphabeticalForward'));
+			applyFilters();
+		});
+	</script>
+
+	<script>
+		/* Apply event listeners. */
+
 		/* Prevent sort dropdown from closing on click. */
 		document.getElementById('alphabeticalForward').addEventListener('click', function(event) {
 			event.stopImmediatePropagation();
@@ -270,18 +345,11 @@
 		document.getElementById('dateCreatedButton').addEventListener('click', function(event) {
 			this.querySelector('svg').classList.toggle('rotate-180');
 		});
+	</script>
 
-		/* Clear all filter restrictions. */
-		function clearFilters() {
-			for (const input of document.getElementById('authorDropdown').querySelectorAll('input')) {
-				input.checked = false;
-			}
-			for (const input of document.getElementById('date-created-picker').querySelectorAll('input')) {
-				input.value='';
-			}
-			applyFilters();
-		}
-		
+	<script>
+		/* Define Functions */
+
 		/* Apply filters and search restrictions. */
 		function applyFilters() {
 			const main = document.querySelector('main');
@@ -335,6 +403,32 @@
 			}
 		}
 
+		/* Clear all filter restrictions. */
+		function clearFilters() {
+			for (const input of document.getElementById('authorDropdown').querySelectorAll('input')) {
+				input.checked = false;
+			}
+			for (const input of document.getElementById('date-created-picker').querySelectorAll('input')) {
+				input.value='';
+			}
+			applyFilters();
+		}
+
+		/* Log out user via Neon data API. */
+		function logout() {
+			/* Make Fetch Call */
+			fetch('/logout', {
+				credentials: 'same-origin',
+				method: 'POST'
+			})
+			.then(response => {
+				location.reload();
+			})
+			.catch(error => {
+				console.log(error.message);
+			});
+		}
+
 		/* Sort the document elements. */
 		function sort(radioButton) {
 			const main = document.querySelector('main');
@@ -345,11 +439,11 @@
 			} else if (radioButton.id == 'alphabeticalBackward') {
 				docs.sort((a, b) => b.querySelector('h3').innerHTML.localeCompare(a.querySelector('h3').innerHTML));
 			} else if (radioButton.id == 'chronologicalForward') {
-				docs.sort((a, b) => new Date(b.querySelector('span').innerText + b.querySelector('em').innerText).getTime()
-					- new Date(a.querySelector('span').innerText + a.querySelector('em').innerText).getTime());
+				docs.sort((a, b) => new Date(b.querySelector('.dateCreated').innerText).getTime()
+					- new Date(a.querySelector('.dateCreated').innerText).getTime());
 			} else if (radioButton.id == 'chronologicalBackward') {
-				docs.sort((a, b) => new Date(a.querySelector('span').innerText + a.querySelector('em').innerText).getTime()
-					- new Date(b.querySelector('span').innerText + b.querySelector('em').innerText).getTime());
+				docs.sort((a, b) => new Date(a.querySelector('.dateCreated').innerText).getTime()
+					- new Date(b.querySelector('.dateCreated').innerText).getTime());
 			}
 
 			main.innerHTML = '';
@@ -362,22 +456,5 @@
 		function toggleHidden(element) {
 			element.hidden = !element.hidden;
 		}
-	</script>
-
-	<script>
-		/* Sort alphabetically by default on HTML load. */
-		document.addEventListener('DOMContentLoaded', function() {
-			sort(document.getElementById('alphabeticalForward'));
-			applyFilters();
-		});
-	</script>
-
-	<script>
-		/* Move datepicker calendars into respective filter divs on HTML and script load. */
-		window.onload = function() {
-			var datepickers = document.querySelectorAll(".datepicker");
-			document.getElementById('date-created-picker').appendChild(datepickers[0]);
-			document.getElementById('date-created-picker').appendChild(datepickers[1]);
-		};
 	</script>
 </HTML>
