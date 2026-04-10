@@ -34,11 +34,11 @@
 	/* Pull document information via SQL connection. */
 
 	/* Set SQL Settings */
-	$host = $_ENV['PGHOST'];
-	$port = $_ENV['PGPORT'] ?? 5432;
-	$dbname = $_ENV['PGDATABASE'];
-	$user = $_ENV['PGUSER'];
-	$password = "endpoint=" . $_ENV['NEON_PROJECT_ID'] . ";" . $_ENV['PGPASSWORD'];
+	$host = $_ENV['BLUE_DOCS_PGHOST'];
+	$port = $_ENV['BLUE_DOCS_PGPORT'] ?? 5432;
+	$dbname = $_ENV['BLUE_DOCS_PGDATABASE'];
+	$user = $_ENV['BLUE_DOCS_PGUSER'];
+	$password = "endpoint=" . $_ENV['BLUE_DOCS_NEON_PROJECT_ID'] . ";" . $_ENV['BLUE_DOCS_PGPASSWORD'];
 	//$options = [ endpoint => $_ENV['NEON_PROJECT_ID'] ];
 
 	try {
