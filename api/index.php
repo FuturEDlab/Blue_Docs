@@ -90,7 +90,7 @@
 						echo
 						'<button class="cursor-pointer">
 							<span class="sr-only">Open Profile Menu</span>
-							<img class="size-8" src="/public/profile.png" alt="Default Account Image">
+							<img class="size-8" src="/profile.png" alt="Default Account Image">
 						</button>';
 					}
 				?>
