@@ -400,7 +400,7 @@
 			if (document.getElementById('defaultengine').value != userAttributes['defaultengine']) { updateUserBody.default_engine = document.getElementById('defaultengine').value; }
 
 			/* Make Fetch Call */
-			fetch('/api/updateUser.php', {
+			fetch('/updateUser', {
 				credentials: 'same-origin',
 				method: 'POST',
 				headers: {
@@ -409,7 +409,7 @@
 				body: JSON.stringify(updateUserBody)
 			})
 			.then(response => {
-				//location.reload();
+				location.reload();
 			})
 			.catch(error => {
 				console.log(error.message);

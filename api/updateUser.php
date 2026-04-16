@@ -35,8 +35,6 @@
 			$response = curl_exec($ch);
 			if ($response === false) {
 				die('cURL Error: ' . curl_error($ch));
-			} else {
-				echo $response;
 			}
 		}
 
