@@ -35,6 +35,8 @@
 			$response = curl_exec($ch);
 			if ($response === false) {
 				die('cURL Error: ' . curl_error($ch));
+			} else {
+				echo $response;
 			}
 		}
 
@@ -71,7 +73,6 @@
 					}
 					$stmt = $pdo->query($query . end($settingsKeys) . ' = \'' . $settings[end($settingsKeys)] . '\' WHERE user_id = \'' . htmlspecialchars($postData['user_id']) . '\'');
 				}
-
 			} catch (PDOException $e) {
 				die("Database connection failed: " . $e->getMessage());
 			}

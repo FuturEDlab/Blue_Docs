@@ -409,7 +409,7 @@
 				body: JSON.stringify(updateUserBody)
 			})
 			.then(response => {
-				location.reload();
+				//location.reload();
 			})
 			.catch(error => {
 				console.log(error.message);
