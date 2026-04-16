@@ -13,7 +13,7 @@
 			$headers = [
 				'Content-Type: application/json',
 				'Accept: application/json',
-				'Origin: ' . $_ENV['VERCEL_URL'],
+				'Origin: ' . $_ENV['VERCEL_ORIGIN'],
 				'Authorization: Bearer ' . $_ENV['BLUE_DOCS_NEON_API_TOKEN']
 			];
 

@@ -7,7 +7,7 @@
 		/* Construct Headers */
 		$headers = [
 			'Accept: application/json',
-			'Origin: ' . $_ENV['VERCEL_URL']
+			'Origin: ' . $_ENV['VERCEL_ORIGIN']
 		];
 
 		/* Initialize cURL */
@@ -400,7 +400,7 @@
 			if (document.getElementById('defaultengine').value != userAttributes['defaultengine']) { updateUserBody.default_engine = document.getElementById('defaultengine').value; }
 
 			/* Make Fetch Call */
-			fetch('/updateUser', {
+			fetch('/api/updateUser.php', {
 				credentials: 'same-origin',
 				method: 'POST',
 				headers: {

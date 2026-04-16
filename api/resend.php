@@ -11,7 +11,7 @@
 			$headers = [
 				'Content-Type: application/json',
 				'Accept: application/json',
-				'Origin: ' . $_ENV['VERCEL_URL']
+				'Origin: ' . $_ENV['VERCEL_ORIGIN']
 			];
 
 			/* Construct JSON Data */

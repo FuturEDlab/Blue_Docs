@@ -8,7 +8,7 @@
 		/* Construct Headers */
 		$headers = [
 			'Accept: application/json',
-			'Origin: ' . $_ENV['VERCEL_URL']
+			'Origin: ' . $_ENV['VERCEL_ORIGIN']
 		];
 
 		/* Initialize cURL */
