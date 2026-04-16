@@ -468,7 +468,7 @@
 				body: JSON.stringify({id: '<?php echo $userSession['user']['id'] ?>'})
 			})
 			.then(response => {
-				location.reload();
+				window.location.href = "/";
 			})
 			.catch(error => {
 				console.log(error.message);
