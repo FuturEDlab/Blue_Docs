@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@source "C:\Users\ander\AppData\Roaming\npm\node_modules\flowbite-datepicker";
+
+.datepicker {
+    @apply pt-0 mt-2 rounded-md bg-white border border-black border-2;
+}
+
+emoji-picker {
+  --num-columns: 6;
+}
+
+.range-start {
+    @apply bg-sky-500 text-white rounded-l-xl;
+}
+
+.range-end {
+    @apply bg-sky-500 text-white rounded-r-xl;
+}
+
+.range {
+    @apply bg-gray-300;
+}

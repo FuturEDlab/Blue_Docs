@@ -1,6 +1,4 @@
 <?php
-	session_start();
-
 	/* Pass request to resend OTP email to Neon Auth and return the response. */
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (isset($_COOKIE['email'])) {
@@ -13,7 +11,7 @@
 			$headers = [
 				'Content-Type: application/json',
 				'Accept: application/json',
-				'Origin: ' . $_ENV['VERCEL_URL']
+				'Origin: ' . $_ENV['VERCEL_ORIGIN']
 			];
 
 			/* Construct JSON Data */
