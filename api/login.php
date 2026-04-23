@@ -109,8 +109,6 @@
 		const errorSpan = document.getElementById('errorSpan');
 
 		function submitLogin() {
-			event.preventDefault();
-
 			const formData = new FormData(document.getElementById('loginForm'));
 			if (formData.get('email') && formData.get('password')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {

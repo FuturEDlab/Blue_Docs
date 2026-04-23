@@ -88,7 +88,7 @@
 					<input id="email" type="text" name="email" autocomplete="email" placeholder="Email" onclick="resetForm()" class="block w-full rounded-sm outline-2 invalid:text-red-500 px-1"/>
 					<input id="password" type="password" name="password" autocomplete="password" placeholder="Password" onclick="resetForm()" class="block w-full rounded-sm outline-2 invalid:text-red-500 px-1"/>
 					<input id="confirmpassword" type="password" name="confirmpassword" autocomplete="confirmpassword" placeholder="Confirm Password" onclick="resetForm()" class="block w-full rounded-sm outline-2 invalid:text-red-500 px-1"/>
-					<button id="signupSubmit" type="submit" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Sign Up →</button>
+					<button id="signupSubmit" type="button" onclick="submitSignup()" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Sign Up →</button>
 					<span id="errorSpan" class="text-red-500 text-center"></span>
 				</form>
 
@@ -102,9 +102,7 @@
 	<script>
 		const errorSpan = document.getElementById('errorSpan');
 
-		document.getElementById('signUpForm').addEventListener('submit', (event) => {
-			event.preventDefault();
-
+		function submitSignup() {
 			const formData = new FormData(document.getElementById('signUpForm'));
 			if (formData.get('email') && formData.get('password') && formData.get('confirmpassword') && formData.get('firstname') && formData.get('lastinitial')) {
 				if (/.+@(mail.)?gvsu\.edu/.test(formData.get('email'))) {
