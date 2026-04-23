@@ -94,7 +94,7 @@
 				<form class="flex flex-col items-center justify-between w-full gap-4" id="loginForm">
 					<input id="email" type="text" name="email" autocomplete="email" placeholder="Email" onclick="resetEmail()" class="block w-full rounded-sm outline-2 invalid:text-red-500 px-1"/>
 					<input id="password" type="password" name="password" autocomplete="password" placeholder="Password" class="block w-full rounded-sm outline-2 px-1"/>
-					<button id="loginSubmit" type="submit" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Log In →</button>
+					<button id="loginSubmit" type="button" onclick="submitLogin()" class="block w-full rounded-sm bg-sky-500 outline-sky-500 outline-2 hover:bg-sky-400 hover:outline-sky-400 focus:bg-sky-500 focus:outline-sky-500">Log In →</button>
 					<span id="errorSpan" class="text-red-500 text-center"></span>
 				</form>
 
@@ -108,7 +108,7 @@
 	<script>
 		const errorSpan = document.getElementById('errorSpan');
 
-		document.getElementById('loginForm').addEventListener('submit', (event) => {
+		function submitLogin() {
 			event.preventDefault();
 
 			const formData = new FormData(document.getElementById('loginForm'));
@@ -147,6 +147,14 @@
 				}
 			} else {
 				errorSpan.textContent = 'Both an email and password are required.';
+			}
+		}
+
+		/* Allow usage of ENTER key to submit login request. */
+		document.addEventListener('keydown', function(event) {
+			if (!document.getElementById('loginSubmit').disabled && (event.key === 'Enter' || event.keyCode === 13)) {
+				event.preventDefault();
+				document.getElementById('loginSubmit').click();
 			}
 		});
 

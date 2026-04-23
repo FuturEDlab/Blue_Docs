@@ -179,6 +179,14 @@
 			});
 		}
 
+		/* Allow usage of ENTER key to submit verification request. */
+		document.addEventListener('keydown', function(event) {
+			if (document.getElementById('otpSubmit').enabled && (event.key === 'Enter' || event.keyCode === 13)) {
+				event.preventDefault();
+				document.getElementById('otpSubmit').click();
+			}
+		});
+
 		function resetEmail() {
 			document.getElementById('email').setCustomValidity('');
 			errorSpan.textContent = '';
