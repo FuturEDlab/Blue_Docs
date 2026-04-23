@@ -151,7 +151,7 @@
 			} else {
 				errorSpan.textContent = 'Name, email, and password are required.';
 			}
-		});
+		}
 
 		/* Allow usage of ENTER key to submit signup request. */
 		document.addEventListener('keydown', function(event) {
