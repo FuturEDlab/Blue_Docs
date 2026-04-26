@@ -38,7 +38,7 @@
         <meta charset="UTF-8">
         <title><?php echo $results[0]['name'] ?></title>
 
-        <link href="/public/output.css" rel="stylesheet" type="text/css">
+        <link href="/output.css" rel="stylesheet" type="text/css">
         <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
     </head>
 
