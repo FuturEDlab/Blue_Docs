@@ -146,7 +146,7 @@
 					<button id="sortButton" class="cursor-pointer flex mt-2 text-lg font-bold items-center">
 						Sort
 						<svg viewBox="0 0 100 100" class="ml-2 h-4">
-							<polygon points="50 15, 100 100, 0 100"/>
+							<polygon points="50 100, 100 15, 0 15"/>
 						</svg>
 					</button>
 
@@ -201,7 +201,7 @@
 									<!-- Author Filter Button -->
 									<button id='authorButton' onclick="toggleHidden(document.getElementById('authorFilter'))" class="group cursor-pointer flex mt-2 text-lg font-bold items-center gap-3">
 										<svg viewBox="0 0 100 100" class="ml-2 h-4 group-checked:rotate-180">
-											<polygon points="50 15, 100 100, 0 100"/>
+											<polygon points="50 100, 100 15, 0 15"/>
 										</svg>
 										Author
 									</button>
@@ -232,7 +232,7 @@
 									<!-- Date Created Filter Button -->
 									<button id='dateCreatedButton' onclick="toggleHidden(document.getElementById('dateCreatedFilter'))" class="group cursor-pointer flex mt-2 text-lg font-bold items-center gap-3">
 										<svg viewBox="0 0 100 100" class="ml-2 h-4 group-checked:rotate-180">
-											<polygon points="50 15, 100 100, 0 100"/>
+											<polygon points="50 100, 100 15, 0 15"/>
 										</svg>
 										Date Created
 									</button>
