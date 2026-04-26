@@ -179,6 +179,14 @@
 			});
 		}
 
+		/* Allow usage of ENTER key to submit OTP request. */
+		document.addEventListener('keydown', function(event) {
+			if (!document.getElementById('otpSubmit').disabled && (event.key === 'Enter' || event.keyCode === 13)) {
+				event.preventDefault();
+				document.getElementById('otpSubmit').click();
+			}
+		});
+
 		function resetEmail() {
 			document.getElementById('email').setCustomValidity('');
 			errorSpan.textContent = '';
@@ -203,10 +211,6 @@
 					verificationDigits[index - 1].value = '';
 					verificationDigits[index - 1].focus();
 				}
-			}
-
-			if (!document.getElementById('otpSubmit').disabled && (e.key === 'Enter' || e.keyCode === 13)) {
-				document.getElementById('otpSubmit').click();
 			}
 		}
 
