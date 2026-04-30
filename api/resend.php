@@ -28,7 +28,6 @@
 			curl_setopt($ch, CURLOPT_URL, $url);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-			curl_setopt($ch, CURLOPT_HEADER, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 			/* Handle cURL Response and End Session */

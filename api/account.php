@@ -232,7 +232,7 @@
 
 								<div tabindex="0" class="flex min-h-full items-center justify-center p-4 text-center">
 									<el-dialog-panel class="relative transform overflow-hidden rounded-lg border-3 border-red-500 bg-white text-left p-4">
-										<button type="button" command="close" commandfor="deleteAccountPopup" class="absolute right-4 cursor-pointer ml-auto font-bold hover:text-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+										<button type="button" command="close" commandfor="deleteAccountPopup" onclick="document.getElementById('deleteEmail').value = ''" class="absolute right-4 cursor-pointer ml-auto font-bold hover:text-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
 											<span class="sr-only">Close Account Deletion Popup</span>
 											X
 										</button>
@@ -430,6 +430,14 @@
 				document.getElementById('deleteAccountSubmit').disabled = false;
 			} else {
 				document.getElementById('deleteAccountSubmit').disabled = true;
+			}
+		});
+
+		/* Allow usage of ENTER key to submit account deletion. */
+		document.addEventListener('keydown', function(event) {
+			if (document.getElementById('deleteAccountSubmit').enabled && (event.key === 'Enter' || event.keyCode === 13)) {
+				event.preventDefault();
+				document.getElementById('deleteAccountSubmit').click();
 			}
 		});
 	</script>
