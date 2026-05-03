@@ -126,6 +126,7 @@
     <script>
         var slideToggle = true;
 
+        /* Slides document when comment drawer is opened. */
         function docSlide() {
             if (slideToggle) {
                 document.getElementById('docContainer').animate([
@@ -149,6 +150,7 @@
             slideToggle = !slideToggle;
         }
 
+        /* Slides document back if comment drawer begins to close. */
         function determineSlide(event) {
             if (!document.getElementById('clickBox').contains(event.target)) {
                 docSlide();
