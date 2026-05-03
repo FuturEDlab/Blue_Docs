@@ -74,11 +74,14 @@
 	</head>
 
 	<body class="flex flex-col justify-start h-full md:flex-row">
+
+		<!-- Tab Navigation -->
 		<search class="flex flex-row w-full md:w-1/5 md:flex-col">
 			<div class="p-16 w-1/8 md:w-full">
 				<a href="/index"><img src="/templogo.svg" alt="Temporary Blue Docs Logo"></a>
 			</div>
 
+			<!-- Navigation Buttons -->
 			<div class="flex flex-row gap-5 mx-14 my-4 md:flex-col">
 				<label for="accountSelect" class="select-none relative cursor-pointer text-lg rounded-lg p-3 border border-4 border-transparent has-checked:bg-sky-200 has-checked:border-sky-400">
 					<input autocomplete="off" checked type="radio" onclick="contentSelect('account')" id="accountSelect" name="accountContent" class="cursor-pointer absolute appearance-none inset-0" required/>
@@ -148,6 +151,7 @@
 
 				<hr class="border-gray-500 border-2">
 
+				<!-- User Attributes -->
 				<div class="flex flex-row">
 					<div class="w-1/2 flex flex-col">
 						<h1 class="text-xl font-bold">About</h1>
@@ -165,6 +169,7 @@
 						?>
 					</div>
 
+					<!-- User Preferences -->
 					<div class="w-1/2 flex flex-col">
 						<h1 class="text-xl font-bold">My Setup</h1>
 						<h2 class="text-md font-bold">Default Language:</h2>
@@ -207,6 +212,7 @@
 
 					<hr class="border-gray-500 border-2">
 
+					<!-- Account Management Forms -->
 					<h1 class="text-xl font-bold">Account Management</h1>
 
 					<div class="flex p-4">
@@ -254,6 +260,7 @@
 			<div id="documents" hidden>
 				<h1 class="text-xl mb-3">Documents</h1>
 
+				<!-- Recently Viewed Documents -->
 				<div>
 					<h2 class="text-md font-bold">Recently Viewed</h2>
 
@@ -270,6 +277,7 @@
 					</div>
 				</div>
 
+				<!-- Bookmarked Documents -->
 				<div>
 					<h2 class="text-md font-bold">Bookmarked</h2>
 
@@ -286,6 +294,7 @@
 					</div>
 				</div>
 
+				<!-- Uploaded DOcuments -->
 				<div>
 					<h2 class="text-md font-bold">My Documentation</h2>
 
@@ -425,6 +434,7 @@
 			event.stopPropagation();
 		});
 
+		/* Enables account delete button if email is typed. */
 		document.getElementById('deleteEmail').addEventListener('input', (event) => {
 			if (document.getElementById('deleteEmail').value == '<?php echo $userSession['user']['email'] ?>') {
 				document.getElementById('deleteAccountSubmit').disabled = false;
@@ -455,6 +465,7 @@
 			'defaultengine': '<?php echo $userSettingsResults[0]['default_engine'] ?>'
 		}
 
+		/* Displays tab if selected. */
 		function contentSelect(pageSelected) {
 			for (const pageName of contentList) {
 				if (pageSelected == pageName) {
@@ -483,6 +494,7 @@
 			});
 		}
 
+		/* Enables account changes submit if a value is changed from the original value when loading the page. */
 		function toggleSubmit() {
 			if (document.getElementById('firstname').value != userAttributes['firstname'] ||
 				document.getElementById('lastinitial').value != userAttributes['lastinitial'] ||

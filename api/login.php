@@ -108,6 +108,7 @@
 	<script>
 		const errorSpan = document.getElementById('errorSpan');
 
+		/* Submits login request through Neon API. */
 		function submitLogin() {
 			const formData = new FormData(document.getElementById('loginForm'));
 			if (formData.get('email') && formData.get('password')) {
@@ -156,6 +157,7 @@
 			}
 		});
 
+		/* Resets email input as valid. */
 		function resetEmail() {
 			document.getElementById('email').setCustomValidity('');
 			errorSpan.textContent = '';

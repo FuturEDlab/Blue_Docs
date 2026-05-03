@@ -124,6 +124,8 @@
 			
 			if (otpCode.length == 6) {
 				errorSpan.innerHTML = '<img src="/loading.gif" alt="Loading GIF" class="size-6">';
+
+				/* Sends verification request through Neon API. */
 				fetch('/verification', {
 					method: 'POST',
 					headers: {
@@ -178,19 +180,6 @@
 				errorSpan.textContent = error.message;
 			});
 		}
-
-		/* Allow usage of ENTER key to submit OTP request. */
-		document.addEventListener('keydown', function(event) {
-			if (!document.getElementById('otpSubmit').disabled && (event.key === 'Enter' || event.keyCode === 13)) {
-				event.preventDefault();
-				document.getElementById('otpSubmit').click();
-			}
-		});
-
-		function resetEmail() {
-			document.getElementById('email').setCustomValidity('');
-			errorSpan.textContent = '';
-		}
 	</script>
 
 	<script>
@@ -202,6 +191,7 @@
 				e.preventDefault();
 			}
 
+			/* Deletes current digit if exists, otherwise try to delete previous digits and move cursor left. */
 			if (e.key === 'Delete' || e.key === 'Backspace') {
 				const index = verificationDigits.indexOf(e.target);
 				if (verificationDigits[index].value != '') {
@@ -212,12 +202,19 @@
 					verificationDigits[index - 1].focus();
 				}
 			}
+
+			/* Tries to submit OTP if submission is enabled. */
+			if (!document.getElementById('otpSubmit').disabled && (e.key === 'Enter' || e.keyCode === 13)) {
+				document.getElementById('otpSubmit').click();
+			}
 		}
 
 		/* Handle Input Update */
 		const handleInput = (e) => {
 			const { target } = e;
 			const index = verificationDigits.indexOf(target)
+
+			/* Shifts cursor right when inputting digit, or enable submit if digits are full. */
 			if (target.value) {
 				if (index < verificationDigits.length - 1) {
 					verificationDigits[index + 1].focus();
@@ -266,6 +263,7 @@
 			}
 		}
 
+		/* Attach listeners to all inputs. */
 		verificationDigits.forEach((input) => {
             input.addEventListener('input', handleInput);
             input.addEventListener('keydown', handleKeyDown);
