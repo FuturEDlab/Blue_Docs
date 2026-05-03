@@ -16,6 +16,10 @@
   ],
   "rewrites": [
     {
+      "source": "/docs/:match",
+      "destination": "/api/document.php"
+    },
+    {
       "source": "/:match",
       "destination": "/api/:match"
     },

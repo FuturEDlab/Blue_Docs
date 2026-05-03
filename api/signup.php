@@ -102,6 +102,7 @@
 	<script>
 		const errorSpan = document.getElementById('errorSpan');
 
+		/* Submits user signup request through Neon API. */
 		function submitSignup() {
 			const formData = new FormData(document.getElementById('signUpForm'));
 			if (formData.get('email') && formData.get('password') && formData.get('confirmpassword') && formData.get('firstname') && formData.get('lastinitial')) {
@@ -161,6 +162,7 @@
 			}
 		});
 
+		/* Resets form inputs as valid. */
 		function resetForm() {
 			document.getElementById('email').setCustomValidity('');
 			document.getElementById('password').setCustomValidity('');

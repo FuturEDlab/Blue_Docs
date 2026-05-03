@@ -9,6 +9,10 @@ emoji-picker {
   --num-columns: 6;
 }
 
+ul {
+    list-style: disc;
+}
+
 .range-start {
     @apply bg-sky-500 text-white rounded-l-xl;
 }
