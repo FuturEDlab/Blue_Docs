@@ -48,7 +48,7 @@
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		/* Set SQL Query */
-		$stmt = $pdo->query('SELECT name, description, author, date_created FROM markdown_files');
+		$stmt = $pdo->query('SELECT id, name, description, author, date_created FROM markdown_files');
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 	} catch (PDOException $e) {
@@ -279,7 +279,7 @@
 					$date = $date->format(DateTime::W3C);
 
 					echo
-					'<a href="/doc/' . $document['id'] . '" hidden class="flex flex-col gap-1 bg-sky-400 p-6 m-6 rounded-lg h-39">
+					'<a href="/doc?id=' . $document['id'] . '" hidden class="flex flex-col gap-1 bg-sky-400 p-6 m-6 rounded-lg h-39">
 						<h3 class="text-lg font-bold">' . $document['name'] . '</h3>
 						<div>
 							<p class="text-xs truncate">Author: <span class="authorName">' . $document['author'] . '</span></p>

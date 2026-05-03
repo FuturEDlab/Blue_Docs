@@ -50,7 +50,7 @@
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		/* Set SQL Query */
-		$stmt = $pdo->query('SELECT name, description, author, date_created, user_uploaded FROM markdown_files');
+		$stmt = $pdo->query('SELECT id, name, description, author, date_created, user_uploaded FROM markdown_files');
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		/* Set SQL Query */
@@ -306,7 +306,7 @@
 								foreach ($results as $document) {
 									if ($userSession['user']['id'] == $document['user_uploaded']) {
 										echo
-										'<a href="#" class="w-sm flex flex-col gap-1 bg-sky-400 p-6 m-2 rounded-lg h-39">
+										'<a href="/doc?id=' . $document['id'] . '" class="w-sm flex flex-col gap-1 bg-sky-400 p-6 m-2 rounded-lg h-39">
 											<h3 class="text-lg font-bold">' . $document['name'] . '</h3>
 											<div>
 												<p class="text-xs truncate">Author: <span class="authorName">' . $document['author'] . '</span></p>
