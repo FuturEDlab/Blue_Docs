@@ -308,17 +308,8 @@
   .inset-0 {
     inset: calc(var(--spacing) * 0);
   }
-  .inset-7 {
-    inset: calc(var(--spacing) * 7);
-  }
-  .inset-x-\[-10\] {
-    inset-inline: -10;
-  }
   .inset-y-0 {
     inset-block: calc(var(--spacing) * 0);
-  }
-  .inset-y-10 {
-    inset-block: calc(var(--spacing) * 10);
   }
   .start-0 {
     inset-inline-start: calc(var(--spacing) * 0);
@@ -352,9 +343,6 @@
   }
   .left-0 {
     left: calc(var(--spacing) * 0);
-  }
-  .left-1 {
-    left: calc(var(--spacing) * 1);
   }
   .left-10 {
     left: calc(var(--spacing) * 10);
@@ -596,10 +584,6 @@
   .field-sizing-fixed {
     field-sizing: fixed;
   }
-  .size-4 {
-    width: calc(var(--spacing) * 4);
-    height: calc(var(--spacing) * 4);
-  }
   .size-6 {
     width: calc(var(--spacing) * 6);
     height: calc(var(--spacing) * 6);
@@ -611,10 +595,6 @@
   .size-8 {
     width: calc(var(--spacing) * 8);
     height: calc(var(--spacing) * 8);
-  }
-  .size-10 {
-    width: calc(var(--spacing) * 10);
-    height: calc(var(--spacing) * 10);
   }
   .size-auto {
     width: auto;
@@ -635,6 +615,9 @@
   }
   .h-39 {
     height: calc(var(--spacing) * 39);
+  }
+  .h-40 {
+    height: calc(var(--spacing) * 40);
   }
   .h-\[20vh\] {
     height: 20vh;
@@ -1449,6 +1432,9 @@
   .bg-\[var\(--my_variable\)\] {
     background-color: var(--my_variable);
   }
+  .bg-blue-500 {
+    background-color: var(--color-blue-500);
+  }
   .bg-blue-700 {
     background-color: var(--color-blue-700);
   }
@@ -1460,6 +1446,12 @@
   }
   .bg-gray-300 {
     background-color: var(--color-gray-300);
+  }
+  .bg-gray-400 {
+    background-color: var(--color-gray-400);
+  }
+  .bg-gray-500 {
+    background-color: var(--color-gray-500);
   }
   .bg-gray-900\/50 {
     background-color: color-mix(in srgb, oklch(21% 0.034 264.665) 50%, transparent);
@@ -1928,8 +1920,8 @@
   .pb-6 {
     padding-bottom: calc(var(--spacing) * 6);
   }
-  .pl-10 {
-    padding-left: calc(var(--spacing) * 10);
+  .pl-3 {
+    padding-left: calc(var(--spacing) * 3);
   }
   .text-center {
     text-align: center;
@@ -2755,18 +2747,6 @@
   .data-closed\:-translate-x-full {
     &[data-closed] {
       --tw-translate-x: -100%;
-      translate: var(--tw-translate-x) var(--tw-translate-y);
-    }
-  }
-  .data-closed\:translate-x-3\/20 {
-    &[data-closed] {
-      --tw-translate-x: calc(3/20 * 100%);
-      translate: var(--tw-translate-x) var(--tw-translate-y);
-    }
-  }
-  .data-closed\:translate-x-7\/20 {
-    &[data-closed] {
-      --tw-translate-x: calc(7/20 * 100%);
       translate: var(--tw-translate-x) var(--tw-translate-y);
     }
   }

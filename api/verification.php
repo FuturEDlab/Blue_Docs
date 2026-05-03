@@ -141,7 +141,7 @@
 				.then(data => {
 					if (data !== undefined) {
 						if ('user' in data) {
-							window.location.href='/index';
+							window.location.href='/login';
 						} else {
 							errorSpan.textContent = data.message;
 						}
